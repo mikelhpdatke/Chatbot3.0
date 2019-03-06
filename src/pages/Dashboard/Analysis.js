@@ -8,9 +8,9 @@ import PageLoading from '@/components/PageLoading';
 import { AsyncLoadBizCharts } from '@/components/Charts/AsyncLoadBizCharts';
 
 const IntroduceRow = React.lazy(() => import('./IntroduceRow'));
-const SalesCard = React.lazy(() => import('./SalesCard'));
-const TopSearch = React.lazy(() => import('./TopSearch'));
-const ProportionSales = React.lazy(() => import('./ProportionSales'));
+// const SalesCard = React.lazy(() => import('./SalesCard'));
+// const TopSearch = React.lazy(() => import('./TopSearch'));
+// const ProportionSales = React.lazy(() => import('./ProportionSales'));
 const OfflineData = React.lazy(() => import('./OfflineData'));
 
 @connect(({ chart, loading }) => ({
@@ -113,8 +113,8 @@ class Analysis extends Component {
     }
     const menu = (
       <Menu>
-        <Menu.Item>操作一</Menu.Item>
-        <Menu.Item>操作二</Menu.Item>
+        <Menu.Item>Operation one</Menu.Item>
+        <Menu.Item>Operation two</Menu.Item>
       </Menu>
     );
 
@@ -133,7 +133,7 @@ class Analysis extends Component {
         <Suspense fallback={<PageLoading />}>
           <IntroduceRow loading={loading} visitData={visitData} />
         </Suspense>
-        <Suspense fallback={null}>
+        {/* <Suspense fallback={null}>
           <SalesCard
             rangePickerValue={rangePickerValue}
             salesData={salesData}
@@ -142,8 +142,8 @@ class Analysis extends Component {
             loading={loading}
             selectDate={this.selectDate}
           />
-        </Suspense>
-        <div className={styles.twoColLayout}>
+        </Suspense> */}
+        {/* <div className={styles.twoColLayout}>
           <Row gutter={24}>
             <Col xl={12} lg={24} md={24} sm={24} xs={24}>
               <Suspense fallback={null}>
@@ -168,7 +168,7 @@ class Analysis extends Component {
               </Suspense>
             </Col>
           </Row>
-        </div>
+        </div> */}
         <Suspense fallback={null}>
           <OfflineData
             activeKey={activeKey}

@@ -19,9 +19,10 @@ class TimelineChart extends React.Component {
       borderWidth = 2,
       data: sourceData,
     } = this.props;
-
-    const data = Array.isArray(sourceData) ? sourceData : [{ x: 0, y1: 0, y2: 0 }];
-
+    // console.log(sourceData);
+    let data = Array.isArray(sourceData) ? sourceData : [{ x: 0, y1: 0, y2: 0 }];
+    // console.log(data);
+    if (!data || data.length === 0) data = [{ x: 0, y1: 0, y2: 0 }];
     data.sort((a, b) => a.x - b.x);
 
     let max;
@@ -31,6 +32,8 @@ class TimelineChart extends React.Component {
         [...data].sort((a, b) => b.y2 - a.y2)[0].y2
       );
     }
+    // console.log(data);
+    // console.log('??');
 
     const ds = new DataSet({
       state: {

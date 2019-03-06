@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
-import { Card, Tabs, Row, Col } from 'antd';
+import { Card, Tabs, Row, Col, Typography } from 'antd';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import styles from './Analysis.less';
 import { TimelineChart, Pie } from '@/components/Charts';
 import NumberInfo from '@/components/NumberInfo';
+const { Title } = Typography;
 
 const CustomTab = ({ data, currentTabKey: currentKey }) => (
   <Row gutter={8} style={{ width: 138, margin: '8px 0' }}>
@@ -42,22 +43,20 @@ const OfflineData = memo(
       bordered={false}
       style={{ marginTop: 32 }}
     >
-      <Tabs activeKey={activeKey} onChange={handleTabChange}>
-        {offlineData.map(shop => (
-          <TabPane tab={<CustomTab data={shop} currentTabKey={activeKey} />} key={shop.name}>
-            <div style={{ padding: '0 24px' }}>
-              <TimelineChart
-                height={400}
-                data={offlineChartData}
-                titleMap={{
-                  y1: formatMessage({ id: 'app.analysis.traffic' }),
-                  y2: formatMessage({ id: 'app.analysis.payments' }),
-                }}
-              />
-            </div>
-          </TabPane>
-        ))}
-      </Tabs>
+      <Title style={{ textAlign: 'center' }} level={3}>
+        Thống kế lượt truy cập
+      </Title>
+
+      <div style={{ padding: '0 24px' }}>
+        <TimelineChart
+          height={400}
+          data={offlineChartData}
+          titleMap={{
+            y1: 'Theo tuần',
+            y2: 'Theo tháng',
+          }}
+        />
+      </div>
     </Card>
   )
 );
