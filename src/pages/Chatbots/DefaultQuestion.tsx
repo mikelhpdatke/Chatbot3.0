@@ -111,8 +111,8 @@ class DefaultQuestion extends React.Component {
           <Row>
             <Col span={24}>
               <PageHeader
-          onBack={() => router.push('/create/info')}
-          title="Nhập câu trả lời mặc định"
+                onBack={() => router.push('/create/info')}
+                title="Nhập câu trả lời mặc định"
                 // subTitle="This is a subtitle"
               />
             </Col>
@@ -134,15 +134,15 @@ class DefaultQuestion extends React.Component {
               <Row>
                 <Col>
                   <Form.Item {...formItemLayoutWithOutLabel}>
-                      <Button
-                        type="primary"
-                        size="large"
-                        htmlType="submit"
-                        className={styles.nextButton}
-                      >
-                        Tiếp tục
-                        <Icon type="right" />
-                      </Button>
+                    <Button
+                      type="primary"
+                      size="large"
+                      htmlType="submit"
+                      className={styles.nextButton}
+                    >
+                      Tiếp tục
+                      <Icon type="right" />
+                    </Button>
                   </Form.Item>
                 </Col>
               </Row>

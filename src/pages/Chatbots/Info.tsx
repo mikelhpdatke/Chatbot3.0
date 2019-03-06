@@ -156,15 +156,10 @@ class Info extends React.Component {
           <Row>
             <Col span={4} offset={20}>
               <Form.Item {...tailFormItemLayout}>
-                  <Button
-                    type="primary"
-                    size="large"
-                    htmlType="submit"
-                    className={styles.nextButton}
-                  >
-                    Tiếp tục
-                    <Icon type="right" />
-                  </Button>
+                <Button type="primary" size="large" htmlType="submit" className={styles.nextButton}>
+                  Tiếp tục
+                  <Icon type="right" />
+                </Button>
               </Form.Item>
             </Col>
           </Row>
