@@ -122,7 +122,10 @@ class DefaultQuestion extends React.Component {
           // breadcrumb={{ routes }}
           // subTitle="This is a subtitle"
         />
-
+        <Button type="primary" size='large' htmlType="submit">
+                  Tiếp tục
+                  <Icon type="file-text" />
+                </Button>
         <Form {...formItemLayout} onSubmit={this.handleSubmit} layout="horizontal">
           <Row type="flex" justify="center">
             <Col span={12}>
