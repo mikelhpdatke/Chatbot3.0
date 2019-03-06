@@ -12,7 +12,8 @@ import {
   PageHeader,
 } from 'antd';
 import styles from './Info.less';
-import Link from 'umi/link';
+// import Link from 'umi/link';
+import router from 'umi/router';
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
 
@@ -27,6 +28,7 @@ class Info extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        router.push('/create/defaultQuestion');
       }
     });
   };
@@ -104,7 +106,7 @@ class Info extends React.Component {
     return (
       <div className={styles.normal}>
         <PageHeader
-          onBack={() => null}
+          onBack={() => router.push('/chatbots/chatbots/list')}
           title="Nhập thông tin cơ bản"
           // subTitle="This is a subtitle"
         />
@@ -154,7 +156,6 @@ class Info extends React.Component {
           <Row>
             <Col span={4} offset={20}>
               <Form.Item {...tailFormItemLayout}>
-                <Link to="/create/defaultQuestion">
                   <Button
                     type="primary"
                     size="large"
@@ -164,7 +165,6 @@ class Info extends React.Component {
                     Tiếp tục
                     <Icon type="right" />
                   </Button>
-                </Link>
               </Form.Item>
             </Col>
           </Row>

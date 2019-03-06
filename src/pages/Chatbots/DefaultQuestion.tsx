@@ -1,6 +1,7 @@
 import { Form, Input, Icon, Button, PageHeader, Row, Col } from 'antd';
 import styles from './DefaultQuestion.less';
-import Link from 'umi/link';
+// import Link from 'umi/link';
+import router from 'umi/router';
 
 let id = 0;
 
@@ -37,6 +38,7 @@ class DefaultQuestion extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        router.push('/create/customQuestion');
       }
     });
   };
@@ -71,7 +73,7 @@ class DefaultQuestion extends React.Component {
     };
     getFieldDecorator('keys', { initialValue: [] });
     const keys = getFieldValue('keys');
-    console.log(keys);
+    // console.log(keys);
     const formItems = keys.map((k, index) => (
       <Col span={12}>
         <Form.Item
@@ -109,8 +111,8 @@ class DefaultQuestion extends React.Component {
           <Row>
             <Col span={24}>
               <PageHeader
-                onBack={() => null}
-                title="Nhập câu trả lời mặc định"
+          onBack={() => router.push('/create/info')}
+          title="Nhập câu trả lời mặc định"
                 // subTitle="This is a subtitle"
               />
             </Col>
@@ -132,7 +134,6 @@ class DefaultQuestion extends React.Component {
               <Row>
                 <Col>
                   <Form.Item {...formItemLayoutWithOutLabel}>
-                    <Link to="/create/customQuestion">
                       <Button
                         type="primary"
                         size="large"
@@ -142,7 +143,6 @@ class DefaultQuestion extends React.Component {
                         Tiếp tục
                         <Icon type="right" />
                       </Button>
-                    </Link>
                   </Form.Item>
                 </Col>
               </Row>
