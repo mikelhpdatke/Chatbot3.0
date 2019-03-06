@@ -12,6 +12,7 @@ import {
   PageHeader,
 } from 'antd';
 import styles from './Info.less';
+import Link from 'umi/link';
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
 
@@ -153,10 +154,17 @@ class Info extends React.Component {
           <Row>
             <Col span={4} offset={20}>
               <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" size="large" htmlType="submit" className={styles.nextButton}>
-                  Tiếp tục
-                  <Icon type="right" />
-                </Button>
+                <Link to="/create/defaultQuestion">
+                  <Button
+                    type="primary"
+                    size="large"
+                    htmlType="submit"
+                    className={styles.nextButton}
+                  >
+                    Tiếp tục
+                    <Icon type="right" />
+                  </Button>
+                </Link>
               </Form.Item>
             </Col>
           </Row>
