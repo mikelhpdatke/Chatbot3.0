@@ -51,7 +51,7 @@ class GeographicView extends PureComponent {
     if (!list || list.length < 1) {
       return (
         <Option key={0} value={0}>
-          没有找到选项
+          Không tìm thấy
         </Option>
       );
     }

@@ -97,7 +97,7 @@ class Center extends PureComponent {
         key: 'articles',
         tab: (
           <span>
-            文章 <span style={{ fontSize: 14 }}>(8)</span>
+            Chủ đề <span style={{ fontSize: 14 }}>(8)</span>
           </span>
         ),
       },
@@ -105,7 +105,7 @@ class Center extends PureComponent {
         key: 'applications',
         tab: (
           <span>
-            应用 <span style={{ fontSize: 14 }}>(8)</span>
+            Ứng dụng <span style={{ fontSize: 14 }}>(8)</span>
           </span>
         ),
       },
@@ -113,7 +113,7 @@ class Center extends PureComponent {
         key: 'projects',
         tab: (
           <span>
-            项目 <span style={{ fontSize: 14 }}>(8)</span>
+            Dự án <span style={{ fontSize: 14 }}>(8)</span>
           </span>
         ),
       },
@@ -148,7 +148,7 @@ class Center extends PureComponent {
                   </div>
                   <Divider dashed />
                   <div className={styles.tags}>
-                    <div className={styles.tagsTitle}>标签</div>
+                    <div className={styles.tagsTitle}>Nhãn</div>
                     {currentUser.tags.concat(newTags).map(item => (
                       <Tag key={item.key}>{item.label}</Tag>
                     ))}
@@ -174,8 +174,8 @@ class Center extends PureComponent {
                     )}
                   </div>
                   <Divider style={{ marginTop: 16 }} dashed />
-                  <div className={styles.team}>
-                    <div className={styles.teamTitle}>团队</div>
+                  {/* <div className={styles.team}>
+                    <div className={styles.teamTitle}>Đội</div>
                     <Spin spinning={projectLoading}>
                       <Row gutter={36}>
                         {notice.map(item => (
@@ -188,11 +188,11 @@ class Center extends PureComponent {
                         ))}
                       </Row>
                     </Spin>
-                  </div>
+                  </div> */}
                 </div>
               ) : (
-                'loading...'
-              )}
+                  'loading...'
+                )}
             </Card>
           </Col>
           <Col lg={17} md={24}>

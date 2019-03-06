@@ -35,11 +35,11 @@ class Center extends PureComponent {
     const CardInfo = ({ activeUser, newUser }) => (
       <div className={stylesApplications.cardInfo}>
         <div>
-          <p>活跃用户</p>
+          <p>Người dùng tích cực</p>
           <p>{activeUser}</p>
         </div>
         <div>
-          <p>新增用户</p>
+          <p>Thêm người dùng</p>
           <p>{newUser}</p>
         </div>
       </div>
@@ -56,13 +56,13 @@ class Center extends PureComponent {
               hoverable
               bodyStyle={{ paddingBottom: 20 }}
               actions={[
-                <Tooltip title="下载">
+                <Tooltip title="Tải xuống">
                   <Icon type="download" />
                 </Tooltip>,
-                <Tooltip title="编辑">
+                <Tooltip title="Sửa">
                   <Icon type="edit" />
                 </Tooltip>,
-                <Tooltip title="分享">
+                <Tooltip title="Chia sẻ">
                   <Icon type="share-alt" />
                 </Tooltip>,
                 <Dropdown overlay={itemMenu}>

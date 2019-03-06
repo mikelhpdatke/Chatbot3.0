@@ -9,33 +9,33 @@ const { Description } = DescriptionList;
 
 const progressColumns = [
   {
-    title: '时间',
+    title: 'Thời gian',
     dataIndex: 'time',
     key: 'time',
   },
   {
-    title: '当前进度',
+    title: 'Tiến trình',
     dataIndex: 'rate',
     key: 'rate',
   },
   {
-    title: '状态',
+    title: 'Trạng thái',
     dataIndex: 'status',
     key: 'status',
     render: text =>
       text === 'success' ? (
-        <Badge status="success" text="成功" />
+        <Badge status="success" text="Success" />
       ) : (
-        <Badge status="processing" text="进行中" />
-      ),
+          <Badge status="processing" text="Processing" />
+        ),
   },
   {
-    title: '操作员ID',
+    title: 'Operator ID',
     dataIndex: 'operator',
     key: 'operator',
   },
   {
-    title: '耗时',
+    title: 'Chi phí',
     dataIndex: 'cost',
     key: 'cost',
   },
@@ -85,7 +85,7 @@ class BasicProfile extends Component {
     };
     const goodsColumns = [
       {
-        title: '商品编号',
+        title: 'ID',
         dataIndex: 'id',
         key: 'id',
         render: (text, row, index) => {
@@ -101,26 +101,26 @@ class BasicProfile extends Component {
         },
       },
       {
-        title: '商品名称',
+        title: 'Tên',
         dataIndex: 'name',
         key: 'name',
         render: renderContent,
       },
       {
-        title: '商品条码',
+        title: 'Mã Barcode',
         dataIndex: 'barcode',
         key: 'barcode',
         render: renderContent,
       },
       {
-        title: '单价',
+        title: 'Giá',
         dataIndex: 'price',
         key: 'price',
         align: 'right',
         render: renderContent,
       },
       {
-        title: '数量（件）',
+        title: 'Số lượng',
         dataIndex: 'num',
         key: 'num',
         align: 'right',
@@ -132,7 +132,7 @@ class BasicProfile extends Component {
         },
       },
       {
-        title: '金额',
+        title: 'Số lượng',
         dataIndex: 'amount',
         key: 'amount',
         align: 'right',
@@ -145,24 +145,24 @@ class BasicProfile extends Component {
       },
     ];
     return (
-      <PageHeaderWrapper title="基础详情页" loading={loading}>
+      <PageHeaderWrapper title="Thông tin cơ bản" loading={loading}>
         <Card bordered={false}>
-          <DescriptionList size="large" title="退款申请" style={{ marginBottom: 32 }}>
-            <Description term="取货单号">{application.id}</Description>
-            <Description term="状态">{application.status}</Description>
-            <Description term="销售单号">{application.orderNo}</Description>
-            <Description term="子订单">{application.childOrderNo}</Description>
+          <DescriptionList size="large" title="Chương trình hoàn trả" style={{ marginBottom: 32 }}>
+            <Description term="Chọn ID">{application.id}</Description>
+            <Description term="Trạng thái">{application.status}</Description>
+            <Description term="Số order">{application.orderNo}</Description>
+            <Description term="Số order con">{application.childOrderNo}</Description>
           </DescriptionList>
           <Divider style={{ marginBottom: 32 }} />
-          <DescriptionList size="large" title="用户信息" style={{ marginBottom: 32 }}>
-            <Description term="用户姓名">{userInfo.name}</Description>
-            <Description term="联系电话">{userInfo.tel}</Description>
-            <Description term="常用快递">{userInfo.delivery}</Description>
-            <Description term="取货地址">{userInfo.addr}</Description>
-            <Description term="备注">{userInfo.remark}</Description>
+          <DescriptionList size="large" title="Thông tin người dùng" style={{ marginBottom: 32 }}>
+            <Description term="Tên">{userInfo.name}</Description>
+            <Description term="Số điện thoại">{userInfo.tel}</Description>
+            <Description term="Delivery">{userInfo.delivery}</Description>
+            <Description term="Địa chỉ">{userInfo.addr}</Description>
+            <Description term="Bình luận">{userInfo.remark}</Description>
           </DescriptionList>
           <Divider style={{ marginBottom: 32 }} />
-          <div className={styles.title}>退货商品</div>
+          <div className={styles.title}>Tiêu đề</div>
           <Table
             style={{ marginBottom: 24 }}
             pagination={false}
@@ -171,7 +171,7 @@ class BasicProfile extends Component {
             columns={goodsColumns}
             rowKey="id"
           />
-          <div className={styles.title}>退货进度</div>
+          <div className={styles.title}>Tiến độ</div>
           <Table
             style={{ marginBottom: 16 }}
             pagination={false}

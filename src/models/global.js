@@ -11,7 +11,16 @@ export default {
 
   effects: {
     *fetchNotices(_, { call, put, select }) {
-      const data = yield call(queryNotices);
+      // const data = yield call(queryNotices);
+      const data = [
+        {
+          id: '000000001',
+          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
+          title: 'Xin chào',
+          datetime: '2017-08-09',
+          type: 'notification',
+        },
+      ];
       const loadedAllNotices = data && data.length && data[data.length - 1] === null;
       yield put({
         type: 'setLoadedStatus',

@@ -54,36 +54,39 @@ export default [
       {
         path: '/chatbots',
         name: 'Quản lý chatbot',
-        icon: 'dashboard',
+        icon: 'form',
         routes: [
           {
             path: 'chatbots/list',
             name: 'Danh sách chatbot',
             component: './Chatbots/Chatbots',
           },
+        ],
+      },
+      // create
+      {
+        path: '/create/',
+        name: 'Tạo chatbot mới',
+        icon: 'plus',
+        routes: [
           {
-            path: '/chatbots/create',
-            name: 'Tạo chatbot mới',
-            routes: [
-              {
-                path: '/chatbots/create/info',
-                name: 'Thông tin cơ bản',
-                component: './Chatbots/Info',
-              },
-              {
-                path: '/chatbots/create/defaultQuestion',
-                name: 'Nhập câu trả lời mặc định',
-                component: './Chatbots/DefaultQuestion',
-              },
-              {
-                path: '/chatbots/create/customQuestion',
-                name: 'Nhập dữ liệu cá nhân',
-                component: './Chatbots/CustomQuestion',
-              },
-            ],
+            path: '/create/info',
+            name: 'Thông tin cơ bản',
+            component: './Chatbots/Info',
+          },
+          {
+            path: '/create/defaultQuestion',
+            name: 'Nhập câu trả lời mặc định',
+            component: './Chatbots/DefaultQuestion',
+          },
+          {
+            path: '/create/customQuestion',
+            name: 'Nhập dữ liệu cá nhân',
+            component: './Chatbots/CustomQuestion',
           },
         ],
       },
+
       // forms
       {
         path: '/form',
