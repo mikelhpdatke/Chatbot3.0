@@ -5,9 +5,10 @@ const port = 8081
 app.use(express.static('dist'));
 
 app.get('/*', (req, res) => {
-  // console.log('in f5');
+  console.log('in f5');
   res.sendFile(__dirname  + '/../dist/index.html', err => {
     if (err) {
+      console.log(err);
       res.status(500).send(err);
     }
   });
