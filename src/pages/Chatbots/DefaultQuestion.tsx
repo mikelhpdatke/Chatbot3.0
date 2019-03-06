@@ -1,189 +1,169 @@
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Select,
-  Row,
-  Col,
-  Button,
-  AutoComplete,
-  PageHeader,
-} from 'antd';
+import { Form, Input, Icon, Button, PageHeader, Row, Col } from 'antd';
 import styles from './DefaultQuestion.less';
-const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
-
-const routes = [
-  {
-    path: 'create/info',
-    breadcrumbName: 'First-level Menu',
-  },
-  {
-    path: 'create/defaultQuestion',
-    breadcrumbName: 'Second-level Menu',
-  },
-  {
-    path: 'create/defaultQuestion',
-    breadcrumbName: 'Third-level Menu',
-  },
-];
+let id = 0;
 
 class DefaultQuestion extends React.Component {
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
+  remove = k => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    // We need at least one passenger
+    if (keys.length === 1) {
+      return;
+    }
+
+    // can use data-binding to set
+    form.setFieldsValue({
+      keys: keys.filter(key => key !== k),
+    });
+  };
+
+  add = () => {
+    const { form } = this.props;
+    // can use data-binding to get
+    const keys = form.getFieldValue('keys');
+    const nextKeys = keys.concat(id++);
+    // can use data-binding to set
+    // important! notify form to detect changes
+    form.setFieldsValue({
+      keys: nextKeys,
+    });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
       }
     });
   };
 
-  handleConfirmBlur = e => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
-    } else {
-      callback();
-    }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-  };
-
-  handleWAddressChange = value => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-    }
-    this.setState({ autoCompleteResult });
-  };
-
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
-
+    const { getFieldDecorator, getFieldValue } = this.props.form;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 },
+        sm: { span: 4 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 },
+        sm: { span: 20 },
       },
     };
-    const tailFormItemLayout = {
+    const formItemLayoutWithOutLabel = {
       wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
+        xs: { span: 24, offset: 0 },
       },
     };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '84',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="84">+84</Option>
-      </Select>
-    );
-
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
+    const labelLayout = {
+      xs: { span: 12 },
+      md: { span: 3 },
+    };
+    getFieldDecorator('keys', { initialValue: [] });
+    const keys = getFieldValue('keys');
+    const formItems = keys.map((k, index) => (
+      <Col span={12}>
+        <Form.Item
+          style={{ width: '100%' }}
+          {...formItemLayout}
+          label={''}
+          required={false}
+          key={k}
+        >
+          {getFieldDecorator(`names[${k}]`, {
+            validateTrigger: ['onChange', 'onBlur'],
+            rules: [
+              {
+                required: true,
+                whitespace: true,
+                message: 'Nhập câu chào',
+              },
+            ],
+          })(<Input placeholder="Câu chào mẫu" style={{ width: '80%', marginRight: 8 }} />)}
+          {keys.length > 1 ? (
+            <Icon
+              className="dynamic-delete-button"
+              type="minus-circle-o"
+              disabled={keys.length === 1}
+              onClick={() => this.remove(k)}
+            />
+          ) : null}
+        </Form.Item>
+      </Col>
     ));
-
     return (
       <div className={styles.normal}>
-        <PageHeader
-          onBack={() => null}
-          title="Nhập câu trả lời mặc định"
-          // breadcrumb={{ routes }}
-          // subTitle="This is a subtitle"
-        />
-        <Button type="primary" size='large' htmlType="submit">
-                  Tiếp tục
-                  <Icon type="file-text" />
-                </Button>
-        <Form {...formItemLayout} onSubmit={this.handleSubmit} layout="horizontal">
-          <Row type="flex" justify="center">
-            <Col span={12}>
-              <Form.Item
-                label={
-                  <span>
-                    Tên&nbsp;
-                    <Tooltip title="Tên của Chatbot bạn muốn đặt">
-                      <Icon type="question-circle-o" />
-                    </Tooltip>
-                  </span>
-                }
-              >
-                {getFieldDecorator('chatbotName', {
-                  rules: [
-                    { required: true, message: 'Đặt tên cho chatbot của bạn!', whitespace: true },
-                  ],
-                })(<Input />)}
-              </Form.Item>
-              <Form.Item label="Lĩnh vực">
-                {getFieldDecorator('fields', {
-                  rules: [{ required: true, message: 'Chọn lĩnh vực', type: 'array' }],
-                })(
-                  <Select mode="multiple" placeholder="Chọn lĩnh vực cho bạn">
-                    <Option value="Bán hàng">Bán hàng</Option>
-                    <Option value="Kiểm toán">Kiểm toán</Option>
-                    <Option value="Hành chính">Hành chính</Option>
-                  </Select>
-                )}
-              </Form.Item>
-              <Form.Item label="Số điện thoại">
-                {getFieldDecorator('phone', {
-                  rules: [{ required: true, message: 'Điền số điện thoại!' }],
-                })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-              </Form.Item>
-              <Form.Item label="Địa chỉ">
-                {getFieldDecorator('address', {
-                  rules: [{ required: true, message: 'Điền địa chỉ' }],
-                })(<Input />)}
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={4} offset={20}>
-              <Col>
-              <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" size='large' htmlType="submit">
-                  Tiếp tục
-                  <Icon type="right" />
-                </Button>
-                </Form.Item>
-              </Col>
-            </Col>
-          </Row>
+      <Form onSubmit={this.handleSubmit}>
+        <Row>
+          <Col span={24}>
+            <PageHeader
+              onBack={() => null}
+              title="Nhập câu trả lời mặc định"
+              // subTitle="This is a subtitle"
+            />
+          </Col>
+          <Col {...labelLayout}>
+            <div className={styles.label}>Câu chào</div>
+          </Col>
+          <Col span={24} />
+          <Col span={20} offset={4}>
+
+              <Row gutter={48}>{formItems}</Row>
+              <Row>
+                <Col>
+                  <Form.Item {...formItemLayoutWithOutLabel}>
+                    <Button size="large" type="primary" onClick={this.add}>
+                      <Icon type="plus" /> Thêm câu hỏi
+                    </Button>
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Item {...formItemLayoutWithOutLabel}>
+                    <Button
+                      type="primary"
+                      size="large"
+                      htmlType="submit"
+                      className={styles.nextButton}
+                    >
+                      Tiếp tục
+                      <Icon type="right" />
+                    </Button>
+                  </Form.Item>
+                </Col>
+              </Row>
+          </Col>
+          <Col {...labelLayout}>
+            <div className={styles.label}>Câu trả lời</div>
+          </Col>
+          <Col span={24} />
+          <Col span={20} offset={4}>
+          <Form.Item
+          style={{ width: '100%' }}
+          {...formItemLayout}
+          label={''}
+          required={false}
+          key={'answer'}
+        >
+          {getFieldDecorator(`answer`, {
+            validateTrigger: ['onChange', 'onBlur'],
+            rules: [
+              {
+                required: true,
+                whitespace: true,
+                message: 'Nhập câu trả lời',
+              },
+            ],
+          })(<Input placeholder="Câu trả lời" style={{ width: '100%', marginRight: 8 }} />)}
+        </Form.Item>
+          </Col>
+        </Row>
         </Form>
       </div>
     );
   }
 }
 
-export default Form.create({ name: 'register' })(DefaultQuestion);
+export default Form.create({ name: 'dynamic_form_item' })(DefaultQuestion);

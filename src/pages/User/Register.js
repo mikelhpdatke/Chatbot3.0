@@ -45,7 +45,7 @@ class Register extends Component {
     confirmDirty: false,
     visible: false,
     help: '',
-    prefix: '86',
+    prefix: '84',
   };
 
   componentDidUpdate() {
@@ -257,8 +257,7 @@ class Register extends Component {
                 onChange={this.changePrefix}
                 style={{ width: '20%' }}
               >
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
+                <Option value="84">+84</Option>
               </Select>
               {getFieldDecorator('mobile', {
                 rules: [

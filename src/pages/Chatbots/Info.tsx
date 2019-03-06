@@ -152,14 +152,12 @@ class Info extends React.Component {
           </Row>
           <Row>
             <Col span={4} offset={20}>
-              <Col>
               <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" size='large' htmlType="submit">
+                <Button type="primary" size="large" htmlType="submit" className={styles.nextButton}>
                   Tiếp tục
                   <Icon type="right" />
                 </Button>
-                </Form.Item>
-              </Col>
+              </Form.Item>
             </Col>
           </Row>
         </Form>
