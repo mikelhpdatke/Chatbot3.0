@@ -191,8 +191,8 @@ class Center extends PureComponent {
                   </div> */}
                 </div>
               ) : (
-                  'loading...'
-                )}
+                'loading...'
+              )}
             </Card>
           </Col>
           <Col lg={17} md={24}>

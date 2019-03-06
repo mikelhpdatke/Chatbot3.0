@@ -26,8 +26,8 @@ const progressColumns = [
       text === 'success' ? (
         <Badge status="success" text="Success" />
       ) : (
-          <Badge status="processing" text="Processing" />
-        ),
+        <Badge status="processing" text="Processing" />
+      ),
   },
   {
     title: 'Operator ID',

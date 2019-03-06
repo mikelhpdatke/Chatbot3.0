@@ -87,7 +87,7 @@ export default {
         },
         address: '89 Phùng Hưng',
         phone: '84337348333',
-      }
+      };
       yield put({
         type: 'saveCurrentUser',
         payload: response,
