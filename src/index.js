@@ -6,7 +6,7 @@ app.use(express.static('dist'));
 
 app.get('/*', (req, res) => {
   // console.log('in f5');
-  res.sendFile(__dirname  + '../dist/index.html', err => {
+  res.sendFile(__dirname  + '/../dist/index.html', err => {
     if (err) {
       res.status(500).send(err);
     }
