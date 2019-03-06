@@ -251,13 +251,13 @@ export default [
       //   ],
       // },
       {
-        name: 'account',
+        name: 'Tài khoản',
         icon: 'user',
         path: '/account',
         routes: [
           {
             path: '/account/center',
-            name: 'center',
+            name: 'Trang cá nhân',
             component: './Account/Center/Center',
             routes: [
               {
@@ -280,7 +280,7 @@ export default [
           },
           {
             path: '/account/settings',
-            name: 'settings',
+            name: 'Cài đặt',
             component: './Account/Settings/Info',
             routes: [
               {
