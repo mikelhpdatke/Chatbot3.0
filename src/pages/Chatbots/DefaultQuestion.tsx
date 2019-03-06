@@ -111,6 +111,7 @@ class DefaultQuestion extends React.Component {
           <Row>
             <Col span={24}>
               <PageHeader
+               // className={styles.title}
                 onBack={() => router.push('/create/info')}
                 title="Nhập câu trả lời mặc định"
                 // subTitle="This is a subtitle"

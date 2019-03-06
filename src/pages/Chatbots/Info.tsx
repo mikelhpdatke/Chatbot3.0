@@ -104,12 +104,16 @@ class Info extends React.Component {
     ));
 
     return (
-      <div className={styles.normal}>
+      <div>
         <PageHeader
+         //className={styles.title}
           onBack={() => router.push('/chatbots/chatbots/list')}
           title="Nhập thông tin cơ bản"
           // subTitle="This is a subtitle"
         />
+
+      <div className={styles.normal}>
+
 
         <Form {...formItemLayout} onSubmit={this.handleSubmit} layout="horizontal">
           <Row type="flex" justify="center">
@@ -164,6 +168,7 @@ class Info extends React.Component {
             </Col>
           </Row>
         </Form>
+      </div>
       </div>
     );
   }
