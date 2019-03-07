@@ -1,45 +1,37 @@
-const wait = ms =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve(ms);
-    }, ms);
-  });
+import { getChatbots, getRecentlyAIML } from '@/services/chatbot';
+// import { connect } from 'dva';
 
 export default {
   namespace: 'chatbots',
   state: {
     chatbots: [],
+    chatbot: '',
+    topic: '',
+    recentlyAIML: [],
   },
   effects: {
-    *fetchChatbots({ call, put }) {
-      // yield call(wait, 2000);
-      console.log('in effect...');
+    *fetchChatbots(obj, { call, put }) {
+      const response = yield call(getChatbots, obj);
+      // console.log('in effect...', response);
       yield put({
         type: 'getChatbots',
-        payload: [
-          {
-            key: '1',
-            chatbot: 'Thái Bình',
-            topic: 'Câu hỏi chung',
-            note: 'Lưu 19/8',
-          },
-          {
-            key: '2',
-            chatbot: 'Cần thơ',
-            topic: 'Câu hỏi chung',
-            note: 'Lưu 19/8',
-          },
-          {
-            key: '3',
-            chatbot: 'Quảng ninh',
-            topic: 'Câu hỏi chung',
-            note: 'Lưu 19/8',
-          },
-        ],
+        payload: response,
       });
     },
   },
   reducers: {
+    saveChatbot(state, action) {
+      return {
+        ...state,
+        chatbot: action.payload,
+      };
+    },
+    saveTopic(state, action) {
+      return {
+        ...state,
+        topic: action.payload,
+      };
+    },
     getChatbots(state, action) {
       return {
         ...state,
@@ -50,8 +42,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
-        if (pathname === '/chatbots/chatbots/list') {
-          console.log(pathname);
+        if (pathname === '/chatbots/chatbots/list' || pathname === '/inputQA') {
           dispatch({
             type: 'fetchChatbots',
           });

@@ -179,4 +179,4 @@ class DefaultQuestion extends React.Component {
   }
 }
 
-export default Form.create({ name: 'dynamic_form_item' })(DefaultQuestion);
+export default Form.create({ name: 'DefaultQuestion' })(DefaultQuestion);
