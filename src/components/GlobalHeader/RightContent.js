@@ -141,7 +141,7 @@ export default class GlobalHeaderRight extends PureComponent {
         <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
           <a
             target="_blank"
-            href="https://pro.ant.design/docs/getting-started"
+            href="#"
             rel="noopener noreferrer"
             className={styles.action}
           >
@@ -209,7 +209,7 @@ export default class GlobalHeaderRight extends PureComponent {
           </HeaderDropdown>
         ) : (
           <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
-        )}
+          )}
         <SelectLang className={styles.action} />
       </div>
     );

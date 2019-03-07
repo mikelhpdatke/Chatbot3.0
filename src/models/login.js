@@ -42,7 +42,7 @@ export default {
             return;
           }
         }
-        yield put(routerRedux.replace(redirect || '/dashboard/analysis'));
+        yield put(routerRedux.replace(redirect || '/dashboard'));
       }
     },
 

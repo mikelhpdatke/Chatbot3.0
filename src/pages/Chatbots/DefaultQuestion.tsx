@@ -38,7 +38,7 @@ class DefaultQuestion extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        router.push('/create/customQuestion');
+        router.push('/inputQA');
       }
     });
   };
@@ -111,7 +111,7 @@ class DefaultQuestion extends React.Component {
           <Row>
             <Col span={24}>
               <PageHeader
-               // className={styles.title}
+                // className={styles.title}
                 onBack={() => router.push('/create/info')}
                 title="Nhập câu trả lời mặc định"
                 // subTitle="This is a subtitle"
