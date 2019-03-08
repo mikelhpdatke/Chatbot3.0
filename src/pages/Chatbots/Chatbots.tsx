@@ -1,8 +1,9 @@
 import styles from './Chatbots.less';
-import { Table, Divider, Icon, Button, Row, Col, Tabs } from 'antd';
+import { Table, Divider, Alert, Button, Row, Col, Tabs, Avatar } from 'antd';
 import router from 'umi/router';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import BotAvarta from '@/assets/bot.png';
 const TabPane = Tabs.TabPane;
 
 const columns = [
@@ -75,8 +76,7 @@ class ChatbotList extends React.Component {
 
     return (
       <PageHeaderWrapper
-        title={'Quản lý danh sách chatbot hiện có'}
-        content={'Bạn có thể thực hiện các thao tác thêm, sửa, xoá và nhập dữ liệu'}
+      title={<Alert message="Bạn có thể thực hiện các thao tác thêm, sửa, xoá hoặc chuyển tới trang Nhập dữ liệu" type="info" showIcon closable />}
       >
       <div className={styles.normal}>
         <Tabs defaultActiveKey="1" tabPosition={'top'}>
@@ -84,7 +84,8 @@ class ChatbotList extends React.Component {
             <TabPane
               tab={
                 <span>
-                  <Icon type="wechat" />
+                  <Avatar src={BotAvarta} size='large'/>
+                  <Divider type='vertical'/>
                   {chatbot.name}
                 </span>
               }

@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Icon, Select, Row, Col, Form, Input, Timeline, Typography, Button, Card } from 'antd';
+import { Icon, Select, Row, Col, Form, Input, Timeline, Alert , Button, Card } from 'antd';
 import styles from './CustomQuestion.less';
 import PageLoading from '@/components/PageLoading';
 import { connect } from 'dva';
@@ -7,6 +7,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 const Option = Select.Option;
 
 const RecentlyAIMLTable = React.lazy(() => import('./RecentlyAIML/RecentlyAIML.jsx'));
+const EditableTable = React.lazy(() => import('./Table/Table'));
 
 @connect(({ chatbots, loading, dispatch }) => ({
   chatbots,
@@ -55,6 +56,7 @@ class CustomQuestion extends React.Component {
     return (
       <PageHeaderWrapper
         // title={'Nhập câu hỏi tuỳ chọn cho chatbot của bạn'}
+        title={<Alert message="Bạn có thể nhập nhiều câu hỏi và 1 câu trả lời" type="info" showIcon closable />}
         // content={'Bạn có thể thực hiện các thao tác thêm, sửa, xoá và nhập dữ liệu'}
       >
       <div className={styles.normal}>
@@ -116,6 +118,9 @@ class CustomQuestion extends React.Component {
                 title={<div className={styles.timelineTitle}>
                 Câu hỏi</div>}
                 >
+              <Suspense fallback={<PageLoading />}>
+                    <EditableTable />
+                  </Suspense>
               </Card>
             </Timeline.Item>
             <Timeline.Item color="green">
