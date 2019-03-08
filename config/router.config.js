@@ -37,42 +37,42 @@ export default [
       // Quản lý chatbot
       {
         path: '/chatbots',
-        name: 'Quản lý chatbot',
+        name: 'chatbotManagement',
         icon: 'form',
         component: './Chatbots/Chatbots',
       },
       // create
       {
         path: '/create/',
-        name: 'Tạo chatbot mới',
+        name: 'createNewChatbot',
         icon: 'plus',
         routes: [
           {
             path: '/create/info',
-            name: 'Thông tin cơ bản',
+            name: 'basicInfoChatbot',
             component: './Chatbots/Info',
           },
           {
             path: '/create/defaultQuestion',
-            name: 'Nhập câu trả lời mặc định',
+            name: 'inputDefaultQuestion',
             component: './Chatbots/DefaultQuestion',
           },
         ],
       },
       {
         path: '/inputQA',
-        name: 'Nhập dữ liệu cá nhân',
+        name: 'inputPersonalData',
         icon: 'reconciliation',
         component: './Chatbots/CustomQuestion',
       },
       {
-        name: 'Tài khoản',
+        name: 'user',
         icon: 'user',
         path: '/account',
         routes: [
           {
             path: '/account/center',
-            name: 'Trang cá nhân',
+            name: 'profile',
             component: './Account/Center/Center',
             routes: [
               {
@@ -95,7 +95,7 @@ export default [
           },
           {
             path: '/account/settings',
-            name: 'Cài đặt',
+            name: 'setting',
             component: './Account/Settings/Info',
             routes: [
               {

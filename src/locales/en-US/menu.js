@@ -1,4 +1,12 @@
 export default {
+  'menu.chatbotManagement': 'Quản lý Chatbot',
+  'menu.createNewChatbot': 'Tạo chatbot mới',
+  'menu.createNewChatbot.basicInfoChatbot': 'Thông tin cơ bản',
+  'menu.createNewChatbot.inputDefaultQuestion': 'Nhập câu trả lời mặc định',
+  'menu.inputPersonalData': 'Nhập dữ liệu cá nhân',
+  'menu.user': 'Tài khoản',
+  'menu.user.profile': 'Trang cá nhân',
+  'menu.user.setting': 'Cài đặt',
   'menu.home': 'Home',
   'menu.login': 'Login',
   'menu.register': 'Register',

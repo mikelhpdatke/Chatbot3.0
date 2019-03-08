@@ -1,10 +1,15 @@
-import { Form, Input, Icon, Button, PageHeader, Row, Col } from 'antd';
+import { Form, Input, Icon, Button, Avatar, Row, Col } from 'antd';
 import styles from './DefaultQuestion.less';
 // import Link from 'umi/link';
 import router from 'umi/router';
-
+import { connect } from 'dva';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 let id = 0;
 
+@connect(({ user, loading }) => ({
+  currentUser: user.currentUser,
+  currentUserLoading: loading.effects['user/fetchCurrent'],
+}))
 class DefaultQuestion extends React.Component {
   remove = k => {
     const { form } = this.props;
@@ -50,7 +55,9 @@ class DefaultQuestion extends React.Component {
     this.add();
   }
   render() {
-    console.log('DefaultQuestion render..');
+    // console.log('DefaultQuestion render..');
+    const {  currentUser,
+      currentUserLoading, } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -75,7 +82,7 @@ class DefaultQuestion extends React.Component {
     const keys = getFieldValue('keys');
     // console.log(keys);
     const formItems = keys.map((k, index) => (
-      <Col span={12}>
+      <Col span={12} key={index}>
         <Form.Item
           style={{ width: '100%' }}
           {...formItemLayout}
@@ -105,18 +112,31 @@ class DefaultQuestion extends React.Component {
         </Form.Item>
       </Col>
     ));
+    const headerContent = (
+      <div className={styles.pageHeaderContent}>
+      <div className={styles.avatar}>
+        <Avatar size="large" src={currentUser.avatar} />
+      </div>
+      <div className={styles.content}>
+        <div className={styles.contentTitle}>
+          Hi,
+          {' ' + currentUser.name + ' '}
+           hãy nhập câu chào cho tôi nhé！
+        </div>
+        <div>
+          {currentUser.title} |{currentUser.group}
+        </div>
+      </div>
+    </div>
+    )
     return (
+      <PageHeaderWrapper
+        // title={'Các câu chào cho chatbot'}
+        content={headerContent}
+      >
       <div className={styles.normal}>
         <Form onSubmit={this.handleSubmit}>
           <Row>
-            <Col span={24}>
-              <PageHeader
-                // className={styles.title}
-                onBack={() => router.push('/create/info')}
-                title="Nhập câu trả lời mặc định"
-                // subTitle="This is a subtitle"
-              />
-            </Col>
             <Col {...labelLayout}>
               <div className={styles.label}>Câu chào</div>
             </Col>
@@ -175,6 +195,7 @@ class DefaultQuestion extends React.Component {
           </Row>
         </Form>
       </div>
+      </PageHeaderWrapper>
     );
   }
 }

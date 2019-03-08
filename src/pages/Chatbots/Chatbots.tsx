@@ -2,7 +2,7 @@ import styles from './Chatbots.less';
 import { Table, Divider, Icon, Button, Row, Col, Tabs } from 'antd';
 import router from 'umi/router';
 import { connect } from 'dva';
-
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 const TabPane = Tabs.TabPane;
 
 const columns = [
@@ -74,6 +74,10 @@ class ChatbotList extends React.Component {
     const hasSelected = selectedRowKeys.length > 0;
 
     return (
+      <PageHeaderWrapper
+        title={'Quản lý danh sách chatbot hiện có'}
+        content={'Bạn có thể thực hiện các thao tác thêm, sửa, xoá và nhập dữ liệu'}
+      >
       <div className={styles.normal}>
         <Tabs defaultActiveKey="1" tabPosition={'top'}>
           {listsCb.map(chatbot => (
@@ -96,7 +100,7 @@ class ChatbotList extends React.Component {
               />
               <Row type="flex" justify="space-around">
                 <Col>
-                  <Button type="primary" shape="round" icon="plus-circle" size="normal"
+                  <Button type="primary" shape="round" icon="plus-circle" size="default"
                   onClick={() => {router.push('/inputQA')}}
                   >
                     Nhập dữ liệu cá nhân
@@ -108,12 +112,12 @@ class ChatbotList extends React.Component {
                   </Button>
                 </Col>
                 <Col>
-                  <Button type="danger" shape="round" icon="edit" size="normal">
+                  <Button type="danger" shape="round" icon="edit" size="default">
                     Sửa
                   </Button>
                 </Col>
                 <Col>
-                  <Button type="danger" shape="round" icon="delete" size="normal">
+                  <Button type="danger" shape="round" icon="delete" size="default">
                     Xoá
                   </Button>
                 </Col>
@@ -122,6 +126,8 @@ class ChatbotList extends React.Component {
           ))}
         </Tabs>
       </div>
+      </PageHeaderWrapper>
+
     );
   }
 }

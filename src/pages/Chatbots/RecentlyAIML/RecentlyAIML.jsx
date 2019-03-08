@@ -29,17 +29,14 @@ class RecentlyAIMLTable extends React.Component {
     let { data } = recentlyAIML;
     data = data.map(({ id_topics_q_a: key, ...rest }) => ({ key, ...rest }));
     return (
-      <div className={styles.root}>
-        <Table
+      // <div className={styles.root}>
+      <Table
           bordered
-          title={() => <span className={styles.titleTable}>
-            Danh sách Pattern - Template gần đây
-                       </span>}
           columns={columns}
           dataSource={data}
           onChange={this.onChange}
         />
-      </div>
+      // </div>
     )
   }
 }

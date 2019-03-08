@@ -4,6 +4,7 @@ import { formatMessage, FormattedMessage } from 'umi/locale';
 import styles from './Analysis.less';
 import { TimelineChart, Pie } from '@/components/Charts';
 import NumberInfo from '@/components/NumberInfo';
+
 const { Title } = Typography;
 
 const CustomTab = ({ data, currentTabKey: currentKey }) => (
@@ -41,12 +42,9 @@ const OfflineData = memo(
       loading={loading}
       className={styles.offlineCard}
       bordered={false}
-      style={{ marginTop: 32 }}
+      style={{ marginTop: 0 }}
+      title='Thống kế lượt truy cập'
     >
-      <Title style={{ textAlign: 'center' }} level={3}>
-        Thống kế lượt truy cập
-      </Title>
-
       <div style={{ padding: '0 24px' }}>
         <TimelineChart
           height={400}

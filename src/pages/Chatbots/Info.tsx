@@ -3,20 +3,25 @@ import {
   Input,
   Tooltip,
   Icon,
-  Select,
+  Card,
   Row,
   Col,
   Button,
-  AutoComplete,
+  Avatar,
   Select,
-  PageHeader,
 } from 'antd';
 import styles from './Info.less';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 // import Link from 'umi/link';
 import router from 'umi/router';
 const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
+import { connect } from 'dva';
+// const AutoCompleteOption = AutoComplete.Option;
 
+@connect(({ user, loading }) => ({
+  currentUser: user.currentUser,
+  currentUserLoading: loading.effects['user/fetchCurrent'],
+}))
 class Info extends React.Component {
   state = {
     confirmDirty: false,
@@ -68,7 +73,7 @@ class Info extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
-
+    const { currentUser, currentUserLoading } = this.props;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -99,20 +104,30 @@ class Info extends React.Component {
       </Select>
     );
 
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
+    const headerContent = (
+      <div className={styles.pageHeaderContent}>
+      <div className={styles.avatar}>
+        <Avatar size="large" src={currentUser.avatar} />
+      </div>
+      <div className={styles.content}>
+        <div className={styles.contentTitle}>
+          Xin chào,
+          {' ' + currentUser.name + ' '}
+        </div>
+        <div>
+          {currentUser.title} |{currentUser.group}
+        </div>
+      </div>
+    </div>
+    )
 
     return (
-      <div>
-        <PageHeader
-          //className={styles.title}
-          onBack={() => router.push('/chatbots/chatbots/list')}
-          title="Nhập thông tin cơ bản"
-          // subTitle="This is a subtitle"
-        />
-
-        <div className={styles.normal}>
+      <PageHeaderWrapper
+        // title={'Nhập thông tin cho chatbot mới'}
+        content={headerContent}
+      >
+      <Card title='Thông tin cơ bản'>
+        {/* <div className={styles.normal}> */}
           <Form {...formItemLayout} onSubmit={this.handleSubmit} layout="horizontal">
             <Row type="flex" justify="center">
               <Col span={12}>
@@ -171,8 +186,9 @@ class Info extends React.Component {
               </Col>
             </Row>
           </Form>
-        </div>
-      </div>
+        {/* </div> */}
+      </Card>
+      </PageHeaderWrapper>
     );
   }
 }
