@@ -32,9 +32,9 @@ class EditableCell extends React.Component {
   save = () => {
     const { record, handleSave } = this.props;
     this.form.validateFields((error, values) => {
-      if (error) {
-        return;
-      }
+      // if (error) {
+      //   return;
+      // }
       // this.toggleEdit();
       handleSave({ ...record, ...values });
     });
@@ -70,6 +70,11 @@ class EditableCell extends React.Component {
                         ref={node => (this.input = node)}
                         onPressEnter={this.save}
                         onBlur={this.save}
+                        // onPointerOut={() => {
+                        //   console.log('on poiter out');
+                        //   this.save()
+                        // }
+                        // }
                       />
                     )}
                 </FormItem>
