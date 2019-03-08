@@ -3,11 +3,10 @@ import { Icon, Select, Row, Col, Form, Input, Timeline, Typography, Button, Card
 import styles from './CustomQuestion.less';
 import PageLoading from '@/components/PageLoading';
 import { connect } from 'dva';
-const {Title} = Typography;
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 const Option = Select.Option;
 
 const RecentlyAIMLTable = React.lazy(() => import('./RecentlyAIML/RecentlyAIML.jsx'));
-
 
 @connect(({ chatbots, loading, dispatch }) => ({
   chatbots,
@@ -54,6 +53,10 @@ class CustomQuestion extends React.Component {
     // console.log(chatbot, topic);
     // console.log(chatbots.chatbots);
     return (
+      <PageHeaderWrapper
+        // title={'Nhập câu hỏi tuỳ chọn cho chatbot của bạn'}
+        // content={'Bạn có thể thực hiện các thao tác thêm, sửa, xoá và nhập dữ liệu'}
+      >
       <div className={styles.normal}>
         <Timeline>
           <Form {...formItemLayout}>
@@ -160,6 +163,7 @@ class CustomQuestion extends React.Component {
         </Timeline>
 
       </div>
+      </PageHeaderWrapper>
     );
   }
 }
