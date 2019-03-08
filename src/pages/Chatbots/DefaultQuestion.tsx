@@ -1,4 +1,4 @@
-import { Form, Input, Icon, Button, Avatar, Row, Col } from 'antd';
+import { Form, Input, Icon, Button, Avatar, Row, Col, Card } from 'antd';
 import styles from './DefaultQuestion.less';
 // import Link from 'umi/link';
 import router from 'umi/router';
@@ -56,7 +56,7 @@ class DefaultQuestion extends React.Component {
   }
   render() {
     // console.log('DefaultQuestion render..');
-    const {  currentUser,
+    const { currentUser,
       currentUserLoading, } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const formItemLayout = {
@@ -114,87 +114,81 @@ class DefaultQuestion extends React.Component {
     ));
     const headerContent = (
       <div className={styles.pageHeaderContent}>
-      <div className={styles.avatar}>
-        <Avatar size="large" src={currentUser.avatar} />
-      </div>
-      <div className={styles.content}>
-        <div className={styles.contentTitle}>
-          Hi,
+        <div className={styles.avatar}>
+          <Avatar size="large" src={currentUser.avatar} />
+        </div>
+        <div className={styles.content}>
+          <div className={styles.contentTitle}>
+            Hi,
           {' ' + currentUser.name + ' '}
-           hãy nhập câu chào cho tôi nhé！
+            hãy nhập câu chào cho tôi nhé！
         </div>
-        <div>
-          {currentUser.title} |{currentUser.group}
+          <div>
+            {currentUser.title} |{currentUser.group}
+          </div>
         </div>
       </div>
-    </div>
     )
     return (
       <PageHeaderWrapper
         // title={'Các câu chào cho chatbot'}
         content={headerContent}
       >
-      <div className={styles.normal}>
-        <Form onSubmit={this.handleSubmit}>
-          <Row>
-            <Col {...labelLayout}>
-              <div className={styles.label}>Câu chào</div>
-            </Col>
-            <Col span={24} />
-            <Col span={20} offset={4}>
-              <Row gutter={48}>{formItems}</Row>
-              <Row>
-                <Col>
+        <div className={styles.normal}>
+          <Form onSubmit={this.handleSubmit}>
+            <Row>
+              <Col span={24} offset={0}>
+                <Card title={'Câu chào'} className={styles.customCard}>
+                  <Row gutter={48}>{formItems}</Row>
                   <Form.Item {...formItemLayoutWithOutLabel}>
                     <Button size="small" type="primary" onClick={this.add}>
                       <Icon type="plus" /> Thêm câu hỏi
                     </Button>
                   </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Item {...formItemLayoutWithOutLabel}>
-                    <Button
-                      type="primary"
-                      size="large"
-                      htmlType="submit"
-                      className={styles.nextButton}
-                    >
-                      Tiếp tục
-                      <Icon type="right" />
-                    </Button>
+                </Card>
+              </Col>
+              <Col span={24} offset={0}>
+                {/* // */}
+                <Card title={'Câu trả lời'}>
+                  <Form.Item
+                    style={{ width: '100%' }}
+                    {...formItemLayout}
+                    label={''}
+                    required={false}
+                    key={'answer'}
+                  >
+                    {getFieldDecorator(`answer`, {
+                      validateTrigger: ['onChange', 'onBlur'],
+                      rules: [
+                        {
+                          required: true,
+                          whitespace: true,
+                          message: 'Nhập câu trả lời',
+                        },
+                      ],
+                    })(<Input placeholder="Câu trả lời" style={{ width: '100%', marginRight: 8 }} />)}
                   </Form.Item>
-                </Col>
-              </Row>
-            </Col>
-            <Col {...labelLayout}>
-              <div className={styles.label}>Câu trả lời</div>
-            </Col>
-            <Col span={24} />
-            <Col span={20} offset={4}>
-              <Form.Item
-                style={{ width: '100%' }}
-                {...formItemLayout}
-                label={''}
-                required={false}
-                key={'answer'}
-              >
-                {getFieldDecorator(`answer`, {
-                  validateTrigger: ['onChange', 'onBlur'],
-                  rules: [
-                    {
-                      required: true,
-                      whitespace: true,
-                      message: 'Nhập câu trả lời',
-                    },
-                  ],
-                })(<Input placeholder="Câu trả lời" style={{ width: '100%', marginRight: 8 }} />)}
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
-      </div>
+                </Card>
+                {/* // */}
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Item {...formItemLayoutWithOutLabel}>
+                  <Button
+                    type="primary"
+                    size="large"
+                    htmlType="submit"
+                    className={styles.nextButton}
+                  >
+                    Tiếp tục
+                      <Icon type="right" />
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
       </PageHeaderWrapper>
     );
   }
