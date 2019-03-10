@@ -47,23 +47,6 @@ export default [
             component: './Chatbots/List/List',
           },
           {
-            path: '/chatbots/create/',
-            name: 'createNewChatbot',
-            icon: 'plus',
-            routes: [
-              {
-                path: '/chatbots/create/info',
-                name: 'basicInfoChatbot',
-                component: './Chatbots/Create/Info.tsx',
-              },
-              {
-                path: '/chatbots/create/defaultQuestion',
-                name: 'inputDefaultQuestion',
-                component: './Chatbots/Create/DefaultQuestion.tsx',
-              },
-            ],
-          },
-          {
             path: '/chatbots/inputQA',
             name: 'inputPersonalData',
             icon: 'reconciliation',

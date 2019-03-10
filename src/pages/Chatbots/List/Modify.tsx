@@ -1,8 +1,7 @@
-import styles from './List.less';
+import styles from './Modify.less';
 import { Table, Divider, Alert, Button, Row, Col, Tabs, Avatar } from 'antd';
 import router from 'umi/router';
 import { connect } from 'dva';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import BotAvarta from '@/assets/bot.png';
 const TabPane = Tabs.TabPane;
 
@@ -75,9 +74,6 @@ class ChatbotList extends React.Component {
     const hasSelected = selectedRowKeys.length > 0;
 
     return (
-      <PageHeaderWrapper
-      title={<Alert message="Bạn có thể thực hiện các thao tác thêm, sửa, xoá hoặc chuyển tới trang Nhập dữ liệu" type="info" showIcon closable />}
-      >
       <div className={styles.normal}>
         <Tabs defaultActiveKey="1" tabPosition={'top'}>
           {listsCb.map(chatbot => (
@@ -127,8 +123,6 @@ class ChatbotList extends React.Component {
           ))}
         </Tabs>
       </div>
-      </PageHeaderWrapper>
-
     );
   }
 }
