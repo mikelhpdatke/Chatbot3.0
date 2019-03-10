@@ -9,6 +9,7 @@ export default {
   effects: {
     *recentlyAIML(obj, { call, put }) {
       const response = yield call(getRecentlyAIML, obj);
+      // console.log('in recently...', response);
       yield put({
         type: 'saveRecentlyAIML',
         payload: response,

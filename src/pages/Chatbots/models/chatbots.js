@@ -1,13 +1,18 @@
-import { getChatbots, getRecentlyAIML } from '@/services/chatbot';
+import { getChatbots } from '@/services/chatbot';
 // import { connect } from 'dva';
 
 export default {
   namespace: 'chatbots',
   state: {
     chatbots: [],
-    chatbot: '',
-    topic: '',
-    recentlyAIML: [],
+    chatbot: {
+      id: -1,
+      name: '',
+    },
+    topic: {
+      id: -1,
+      name: '',
+    },
   },
   effects: {
     *fetchChatbots(obj, { call, put }) {

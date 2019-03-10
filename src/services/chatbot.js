@@ -52,5 +52,5 @@ export async function getChatbots(params) {
 }
 
 export async function getRecentlyAIML(params) {
-  return PostApiForm('http://34.73.92.252:3000/aimlquestions/listquestions', params);
+  return PostApiForm('http://34.73.92.252:3000/aimlquestions', params);
 }

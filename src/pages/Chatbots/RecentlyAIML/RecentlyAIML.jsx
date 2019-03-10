@@ -31,11 +31,11 @@ class RecentlyAIMLTable extends React.Component {
     return (
       // <div className={styles.root}>
       <Table
-          bordered
-          columns={columns}
-          dataSource={data}
-          onChange={this.onChange}
-        />
+        bordered
+        columns={columns}
+        dataSource={data}
+        onChange={this.onChange}
+      />
       // </div>
     )
   }

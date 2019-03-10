@@ -51,6 +51,7 @@ class CustomQuestion extends React.Component {
     // console.log(chatbots, loading);
     const { chatbot, topic } = chatbots;
     // console.log(chatbot, chatbots);
+    // console.log(chatbots);
     // console.log(chatbot, topic);
     // console.log(chatbots.chatbots);
     return (
@@ -98,8 +99,8 @@ class CustomQuestion extends React.Component {
                         // placeholder="Chọn Topic"
                         optionFilterProp="children"
                         onChange={this.handleChangeTopic}
-                        loading={chatbot ? false : true}
-                        value={topic}
+                        loading={chatbot.id === -1 ? false : true}
+                        value={topic.name}
                         filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                       >
                         {chatbots.chatbots
