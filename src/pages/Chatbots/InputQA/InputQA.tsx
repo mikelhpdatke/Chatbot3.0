@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Icon, Select, Row, Col, Form, Input, Timeline, Alert , Button, Card } from 'antd';
-import styles from './CustomQuestion.less';
+import styles from './InputQA.less';
 import PageLoading from '@/components/PageLoading';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';

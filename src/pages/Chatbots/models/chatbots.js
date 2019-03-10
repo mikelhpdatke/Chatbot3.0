@@ -47,7 +47,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
-        if (pathname === '/chatbots/chatbots/list' || pathname === '/inputQA') {
+        if (pathname === '/chatbots/inputQA') {
           dispatch({
             type: 'fetchChatbots',
           });

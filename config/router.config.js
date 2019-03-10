@@ -39,32 +39,39 @@ export default [
         path: '/chatbots',
         name: 'chatbotManagement',
         icon: 'form',
-        component: './Chatbots/Chatbots',
-      },
-      // create
-      {
-        path: '/create/',
-        name: 'createNewChatbot',
-        icon: 'plus',
         routes: [
           {
-            path: '/create/info',
-            name: 'basicInfoChatbot',
-            component: './Chatbots/Info',
+            path: '/chatbots/list',
+            name: 'listchatbot',
+            icon: 'ordered-list',
+            component: './Chatbots/List/List',
           },
           {
-            path: '/create/defaultQuestion',
-            name: 'inputDefaultQuestion',
-            component: './Chatbots/DefaultQuestion',
+            path: '/chatbots/create/',
+            name: 'createNewChatbot',
+            icon: 'plus',
+            routes: [
+              {
+                path: '/chatbots/create/info',
+                name: 'basicInfoChatbot',
+                component: './Chatbots/Create/Info.tsx',
+              },
+              {
+                path: '/chatbots/create/defaultQuestion',
+                name: 'inputDefaultQuestion',
+                component: './Chatbots/Create/DefaultQuestion.tsx',
+              },
+            ],
           },
-        ],
+          {
+            path: '/chatbots/inputQA',
+            name: 'inputPersonalData',
+            icon: 'reconciliation',
+            component: './Chatbots/InputQA/InputQA',
+          },
+        ]
       },
-      {
-        path: '/inputQA',
-        name: 'inputPersonalData',
-        icon: 'reconciliation',
-        component: './Chatbots/CustomQuestion',
-      },
+
       {
         name: 'user',
         icon: 'user',

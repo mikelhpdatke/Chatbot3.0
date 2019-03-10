@@ -1,4 +1,4 @@
-import styles from './Chatbots.less';
+import styles from './List.less';
 import { Table, Divider, Alert, Button, Row, Col, Tabs, Avatar } from 'antd';
 import router from 'umi/router';
 import { connect } from 'dva';
