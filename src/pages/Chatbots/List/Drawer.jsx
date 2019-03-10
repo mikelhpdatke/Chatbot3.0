@@ -56,17 +56,17 @@ class DrawerComponent extends React.Component {
       />,
       }
     ];
-
+    let drawerWidth = window.innerWidth > 760 ? '60vw' : '90vw';
     return (
       <Drawer
         title="Tạo Chatbot mới"
-        width={window.innerWidth > 760 ? '60vw' : '90vw'}
+        width={drawerWidth}
         onClose={() => { this.props.dispatch({ type: 'drawerList/handle', payload: false }) }}
         visible={drawerList.open}
         style={{
           overflow: 'auto',
-          height: 'calc(100% - 108px)',
-          paddingBottom: '108px',
+          height: '100%',
+          // paddingBottom: '108px',
         }}
       >
         <Steps current={current} className={styles.steps}>
