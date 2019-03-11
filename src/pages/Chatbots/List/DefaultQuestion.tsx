@@ -56,8 +56,7 @@ class DefaultQuestion extends React.Component {
   }
   render() {
     // console.log('DefaultQuestion render..');
-    const { currentUser,
-      currentUserLoading, } = this.props;
+    const { currentUser, currentUserLoading } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -114,47 +113,46 @@ class DefaultQuestion extends React.Component {
     ));
 
     return (
-       <div className={styles.normal}>
-          <Form onSubmit={this.handleSubmit}>
-            <Row>
-              <Col span={24} offset={0}>
-                <Card title={'Câu chào'} className={styles.customCard}>
-                  <Row gutter={48}>{formItems}</Row>
-                  <Form.Item {...formItemLayoutWithOutLabel}>
-                    <Button size="small" type="primary" onClick={this.add}>
-                      <Icon type="plus" /> Thêm câu hỏi
-                    </Button>
-                  </Form.Item>
-                </Card>
-              </Col>
-              <Col span={24} offset={0}>
-                {/* // */}
-                <Card title={'Câu trả lời'}>
-                  <Form.Item
-                    style={{ width: '100%' }}
-                    {...formItemLayout}
-                    label={''}
-                    required={false}
-                    key={'answer'}
-                  >
-                    {getFieldDecorator(`answer`, {
-                      validateTrigger: ['onChange', 'onBlur'],
-                      rules: [
-                        {
-                          required: true,
-                          whitespace: true,
-                          message: 'Nhập câu trả lời',
-                        },
-                      ],
-                    })(<Input placeholder="Câu trả lời" style={{ width: '100%', marginRight: 8 }} />)}
-                  </Form.Item>
-                </Card>
-                {/* // */}
-              </Col>
-            </Row>
-          </Form>
-        </div>
-
+      <div className={styles.normal}>
+        <Form onSubmit={this.handleSubmit}>
+          <Row>
+            <Col span={24} offset={0}>
+              <Card title={'Câu chào'} className={styles.customCard}>
+                <Row gutter={48}>{formItems}</Row>
+                <Form.Item {...formItemLayoutWithOutLabel}>
+                  <Button size="small" type="primary" onClick={this.add}>
+                    <Icon type="plus" /> Thêm câu hỏi
+                  </Button>
+                </Form.Item>
+              </Card>
+            </Col>
+            <Col span={24} offset={0}>
+              {/* // */}
+              <Card title={'Câu trả lời'}>
+                <Form.Item
+                  style={{ width: '100%' }}
+                  {...formItemLayout}
+                  label={''}
+                  required={false}
+                  key={'answer'}
+                >
+                  {getFieldDecorator(`answer`, {
+                    validateTrigger: ['onChange', 'onBlur'],
+                    rules: [
+                      {
+                        required: true,
+                        whitespace: true,
+                        message: 'Nhập câu trả lời',
+                      },
+                    ],
+                  })(<Input placeholder="Câu trả lời" style={{ width: '100%', marginRight: 8 }} />)}
+                </Form.Item>
+              </Card>
+              {/* // */}
+            </Col>
+          </Row>
+        </Form>
+      </div>
     );
   }
 }

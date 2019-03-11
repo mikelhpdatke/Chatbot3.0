@@ -56,8 +56,7 @@ class DefaultQuestion extends React.Component {
   }
   render() {
     // console.log('DefaultQuestion render..');
-    const { currentUser,
-      currentUserLoading, } = this.props;
+    const { currentUser, currentUserLoading } = this.props;
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -120,15 +119,15 @@ class DefaultQuestion extends React.Component {
         <div className={styles.content}>
           <div className={styles.contentTitle}>
             Hi,
-          {' ' + currentUser.name + ' '}
+            {' ' + currentUser.name + ' '}
             hãy nhập câu chào cho tôi nhé！
-        </div>
+          </div>
           <div>
             {currentUser.title} |{currentUser.group}
           </div>
         </div>
       </div>
-    )
+    );
     return (
       <PageHeaderWrapper
         // title={'Các câu chào cho chatbot'}
@@ -166,7 +165,9 @@ class DefaultQuestion extends React.Component {
                           message: 'Nhập câu trả lời',
                         },
                       ],
-                    })(<Input placeholder="Câu trả lời" style={{ width: '100%', marginRight: 8 }} />)}
+                    })(
+                      <Input placeholder="Câu trả lời" style={{ width: '100%', marginRight: 8 }} />
+                    )}
                   </Form.Item>
                 </Card>
                 {/* // */}
@@ -182,7 +183,7 @@ class DefaultQuestion extends React.Component {
                     className={styles.nextButton}
                   >
                     Tiếp tục
-                      <Icon type="right" />
+                    <Icon type="right" />
                   </Button>
                 </Form.Item>
               </Col>

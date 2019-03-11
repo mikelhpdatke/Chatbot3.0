@@ -13,8 +13,8 @@ export default {
       yield put({
         type: 'saveRecentlyAIML',
         payload: response,
-      })
-    }
+      });
+    },
   },
   reducers: {
     saveRecentlyAIML(state, action) {
@@ -35,4 +35,4 @@ export default {
       });
     },
   },
-}
+};

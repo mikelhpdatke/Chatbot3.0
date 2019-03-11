@@ -1,7 +1,6 @@
 // import { stringify } from 'qs';
 import request from '@/utils/request';
 
-
 export async function PostApiForm(url, json) {
   let formBody = [];
   for (const property in json) {
@@ -41,7 +40,6 @@ export async function PostApiForm(url, json) {
   // });
   return result;
 }
-
 
 export async function getChatbots(params) {
   // return request('http://34.73.92.252:3000/chatbots/getfullinfo', {

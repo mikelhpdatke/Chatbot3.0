@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Card,
-  Row,
-  Col,
-  Button,
-  Select,
-} from 'antd';
+import { Form, Input, Tooltip, Icon, Card, Row, Col, Button, Select } from 'antd';
 import styles from './Info.less';
 import router from 'umi/router';
 const { Option } = Select;
@@ -102,67 +92,61 @@ class Info extends React.Component {
     );
 
     return (
-
-      <Card title='Thông tin cơ bản'>
+      <Card title="Thông tin cơ bản">
         {/* <div className={styles.normal}> */}
-          <Form {...formItemLayout} onSubmit={this.handleSubmit} layout="horizontal">
-            <Row type="flex" justify="center">
-              <Col span={12}>
-                <Form.Item
-                  label={
-                    <span>
-                      Tên&nbsp;
-                      <Tooltip title="Tên của Chatbot bạn muốn đặt">
-                        <Icon type="question-circle-o" />
-                      </Tooltip>
-                    </span>
-                  }
-                >
-                  {getFieldDecorator('chatbotName', {
-                    rules: [
-                      { required: true, message: 'Đặt tên cho chatbot của bạn!', whitespace: true },
-                    ],
-                  })(<Input />)}
-                </Form.Item>
-                <Form.Item label="Lĩnh vực">
-                  {getFieldDecorator('fields', {
-                    rules: [{ required: true, message: 'Chọn lĩnh vực', type: 'array' }],
-                  })(
-                    <Select mode="multiple" placeholder="Chọn lĩnh vực cho bạn">
-                      <Option value="Bán hàng">Bán hàng</Option>
-                      <Option value="Kiểm toán">Kiểm toán</Option>
-                      <Option value="Hành chính">Hành chính</Option>
-                    </Select>
-                  )}
-                </Form.Item>
-                <Form.Item label="Số điện thoại">
-                  {getFieldDecorator('phone', {
-                    rules: [{ required: true, message: 'Điền số điện thoại!' }],
-                  })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-                </Form.Item>
-                <Form.Item label="Địa chỉ">
-                  {getFieldDecorator('address', {
-                    rules: [{ required: true, message: 'Điền địa chỉ' }],
-                  })(<Input />)}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={4} offset={20}>
-                <Form.Item {...tailFormItemLayout}>
-                  <Button
-                    type="primary"
-                    size="large"
-                    htmlType="submit"
-                    className={styles.nextButton}
-                  >
-                    Tiếp tục
-                    <Icon type="right" />
-                  </Button>
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
+        <Form {...formItemLayout} onSubmit={this.handleSubmit} layout="horizontal">
+          <Row type="flex" justify="center">
+            <Col span={12}>
+              <Form.Item
+                label={
+                  <span>
+                    Tên&nbsp;
+                    <Tooltip title="Tên của Chatbot bạn muốn đặt">
+                      <Icon type="question-circle-o" />
+                    </Tooltip>
+                  </span>
+                }
+              >
+                {getFieldDecorator('chatbotName', {
+                  rules: [
+                    { required: true, message: 'Đặt tên cho chatbot của bạn!', whitespace: true },
+                  ],
+                })(<Input />)}
+              </Form.Item>
+              <Form.Item label="Lĩnh vực">
+                {getFieldDecorator('fields', {
+                  rules: [{ required: true, message: 'Chọn lĩnh vực', type: 'array' }],
+                })(
+                  <Select mode="multiple" placeholder="Chọn lĩnh vực cho bạn">
+                    <Option value="Bán hàng">Bán hàng</Option>
+                    <Option value="Kiểm toán">Kiểm toán</Option>
+                    <Option value="Hành chính">Hành chính</Option>
+                  </Select>
+                )}
+              </Form.Item>
+              <Form.Item label="Số điện thoại">
+                {getFieldDecorator('phone', {
+                  rules: [{ required: true, message: 'Điền số điện thoại!' }],
+                })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
+              </Form.Item>
+              <Form.Item label="Địa chỉ">
+                {getFieldDecorator('address', {
+                  rules: [{ required: true, message: 'Điền địa chỉ' }],
+                })(<Input />)}
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={4} offset={20}>
+              <Form.Item {...tailFormItemLayout}>
+                <Button type="primary" size="large" htmlType="submit" className={styles.nextButton}>
+                  Tiếp tục
+                  <Icon type="right" />
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
         {/* </div> */}
       </Card>
     );

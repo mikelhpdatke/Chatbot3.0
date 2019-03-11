@@ -43,7 +43,7 @@ const OfflineData = memo(
       className={styles.offlineCard}
       bordered={false}
       style={{ marginTop: 0 }}
-      title='Thống kế lượt truy cập'
+      title="Thống kế lượt truy cập"
     >
       <div style={{ padding: '0 24px' }}>
         <TimelineChart

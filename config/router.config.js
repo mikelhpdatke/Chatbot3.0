@@ -52,7 +52,7 @@ export default [
             icon: 'reconciliation',
             component: './Chatbots/InputQA/InputQA',
           },
-        ]
+        ],
       },
 
       {

@@ -1,12 +1,15 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Suspense } from 'react';
 import { connect } from 'dva';
 import { Card, Button, Icon, List } from 'antd';
 import router from 'umi/router';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './List.less';
-import DrawerNewChatbot from './Drawer';
+import PageLoading from '@/components/PageLoading';
 
+// import DrawerNewChatbot from './Drawer';
+const DrawerNewChatbot = React.lazy(() => import('./Drawer'));
+const DrawerModify = React.lazy(() => import('./SecondDrawer'));
 @connect(({ list, drawerList, loading }) => ({
   list,
   drawerList,
@@ -32,7 +35,12 @@ class CardList extends PureComponent {
     // console.log(drawerList, '??');
     return (
       <React.Fragment>
-        <DrawerNewChatbot />
+        <Suspense fallback={<PageLoading />}>
+          <DrawerNewChatbot />
+        </Suspense>
+        <Suspense fallback={<PageLoading />}>
+          <DrawerModify />
+        </Suspense>
         <PageHeaderWrapper>
           <div className={styles.cardList}>
             <List
@@ -43,9 +51,28 @@ class CardList extends PureComponent {
               renderItem={item =>
                 item ? (
                   <List.Item key={item.id}>
-                    <Card hoverable className={styles.card} actions={[<a onClick={() => {
-                      router.push('/chatbots/inputQA');
-                    }}>Nhập dữ liệu</a>, <a>Chỉnh sửa</a>]}>
+                    <Card
+                      hoverable
+                      className={styles.card}
+                      actions={[
+                        <a
+                          onClick={() => {
+                            router.push('/chatbots/inputQA');
+                          }}
+                        >
+                          Nhập dữ liệu
+                        </a>,
+                        <a onClick={() => {
+                          this.props.dispatch({
+                            type: 'SecondDrawer/handle', payload: {
+                              open: true, chatbot: item.title
+                            },
+                          });
+                        }}
+                        >Chỉnh sửa
+                        </a>,
+                      ]}
+                    >
                       <Card.Meta
                         avatar={<img alt="" className={styles.cardAvatar} src={item.avarta} />}
                         title={<a>{item.title}</a>}
@@ -65,8 +92,8 @@ class CardList extends PureComponent {
                         onClick={() => {
                           this.props.dispatch({
                             type: 'drawerList/handle',
-                            payload: true
-                          })
+                            payload: true,
+                          });
                         }}
                       >
                         <Icon type="plus" /> Thêm Chatbot

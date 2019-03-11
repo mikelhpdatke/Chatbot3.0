@@ -31,13 +31,14 @@ class Center extends PureComponent {
                 <span>{moment(item.updatedAt).fromNow()}</span>
                 <div className={stylesProjects.avatarList}>
                   <AvatarList size="mini">
-                    {item.members && item.members.map(member => (
-                      <AvatarList.Item
-                        key={`${item.id}-avatar-${member.id}`}
-                        src={member.avatar}
-                        tips={member.name}
-                      />
-                    ))}
+                    {item.members &&
+                      item.members.map(member => (
+                        <AvatarList.Item
+                          key={`${item.id}-avatar-${member.id}`}
+                          src={member.avatar}
+                          tips={member.name}
+                        />
+                      ))}
                   </AvatarList>
                 </div>
               </div>

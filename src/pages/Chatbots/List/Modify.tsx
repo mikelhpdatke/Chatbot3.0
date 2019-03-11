@@ -1,53 +1,177 @@
-import styles from './Modify.less';
-import { Table, Divider, Alert, Button, Row, Col, Tabs, Avatar } from 'antd';
-import router from 'umi/router';
-import { connect } from 'dva';
-import BotAvarta from '@/assets/bot.png';
-const TabPane = Tabs.TabPane;
+import {
+  Table, Input, InputNumber, Popconfirm, Form, Button,
+} from 'antd';
+import styles from 'Modify.less';
 
-const columns = [
-  {
-    title: 'Tên chủ đề',
-    dataIndex: 'topic',
-  },
-  {
-    title: 'Nội dung',
-    dataIndex: 'topicInfo',
-  },
-];
+const FormItem = Form.Item;
+const EditableContext = React.createContext();
 
-const data = [],
-  data2 = [];
-for (let i = 0; i < 10; i++) {
+const EditableRow = ({ form, index, ...props }) => (
+  <EditableContext.Provider value={form}>
+    <tr {...props} />
+  </EditableContext.Provider>
+);
+
+const EditableFormRow = Form.create()(EditableRow);
+
+class EditableCell extends React.Component {
+  getInput = () => {
+    if (this.props.inputType === 'number') {
+      return <InputNumber />;
+    }
+    return <Input />;
+  };
+
+  render() {
+    const {
+      editing,
+      dataIndex,
+      title,
+      inputType,
+      record,
+      index,
+      ...restProps
+    } = this.props;
+    return (
+      <EditableContext.Consumer>
+        {(form) => {
+          const { getFieldDecorator } = form;
+          return (
+            <td {...restProps}>
+              {editing ? (
+                <FormItem style={{ margin: 0 }}>
+                  {getFieldDecorator(dataIndex, {
+                    rules: [{
+                      required: true,
+                      message: `Please Input ${title}!`,
+                    }],
+                    initialValue: record[dataIndex],
+                  })(this.getInput())}
+                </FormItem>
+              ) : restProps.children}
+            </td>
+          );
+        }}
+      </EditableContext.Consumer>
+    );
+  }
+}
+const data = [];
+for (let i = 0; i < 20; i++) {
   data.push({
-    key: i,
+    key: i.toString(),
     topic: 'Câu hỏi chung',
-    topicInfo: 'mô tả ...',
-  });
-  data2.push({
-    key: i,
-    topic: 'Tuỳ chọn',
-    topicInfo: 'mô tả tuỳ chọn ...',
+    content: 'Đây là nội dung của chủ đề Đây là nội dung của chủ đề Đây là nội dung của chủ đề',
   });
 }
+class EditableTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data, editingKey: '', selectedRowKeys: [], // Check here to configure the default column
+      loading: false,
+      count: 20,
+    };
+    this.columns = [
+      {
+        title: 'Tên chủ đề',
+        dataIndex: 'topic',
+        width: '30%',
+        editable: true,
+      },
+      {
+        title: 'Nội dung',
+        dataIndex: 'content',
+        width: '50%',
+        editable: true,
+      },
+      {
+        title: 'Tuỳ chọn',
+        dataIndex: 'operation',
+        render: (text, record) => {
+          const editable = this.isEditing(record);
+          return (
+            <div>
+              {editable ? (
+                <span>
+                  <EditableContext.Consumer>
+                    {form => (
+                      <a
+                        href="javascript:;"
+                        onClick={() => this.save(form, record.key)}
+                        style={{ marginRight: 8 }}
+                      >
+                        Lưu
+                      </a>
+                    )}
+                  </EditableContext.Consumer>
+                  <Popconfirm
+                    title="Bạn muốn huỷ thay đổi?"
+                    cancelText='Không'
+                    okText='Huỷ'
+                    onConfirm={() => this.cancel(record.key)}
+                  >
+                    <a>Huỷ</a>
+                  </Popconfirm>
+                </span>
+              ) : (
+                  <a onClick={() => this.edit(record.key)}>Sửa</a>
+                )}
+            </div>
+          );
+        },
+      },
+    ];
+  }
 
-const listsCb = [
-  {
-    id: 1,
-    name: 'Thái bình',
-    data: data,
-  },
-  {
-    id: 2,
-    name: 'Hà Nội',
-    data: data2,
-  },
-];
-class ChatbotList extends React.Component {
-  state = {
-    selectedRowKeys: [], // Check here to configure the default column
-    loading: false,
+  handleAdd = () => {
+    const { count, data } = this.state;
+    const newData = {
+      key: count,
+      topic: '',
+      content: '',
+    };
+    this.setState({
+      data: [newData, ...data,],
+      count: count + 1,
+    });
+  }
+
+  isEditing = record => record.key === this.state.editingKey;
+
+  cancel = () => {
+    this.setState({ editingKey: '' });
   };
+
+  save(form, key) {
+    form.validateFields((error, row) => {
+      if (error) {
+        return;
+      }
+      const newData = [...this.state.data];
+      const index = newData.findIndex(item => key === item.key);
+      if (index > -1) {
+        const item = newData[index];
+        newData.splice(index, 1, {
+          ...item,
+          ...row,
+        });
+        this.setState({ data: newData, editingKey: '' });
+      } else {
+        newData.push(row);
+        this.setState({ data: newData, editingKey: '' });
+      }
+    });
+  }
+
+  edit(key) {
+    this.setState({ editingKey: key });
+  }
+
+  onSelectChange = (selectedRowKeys) => {
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    this.setState({ selectedRowKeys });
+  }
 
   start = () => {
     this.setState({ loading: true });
@@ -58,73 +182,80 @@ class ChatbotList extends React.Component {
         loading: false,
       });
     }, 1000);
-  };
-
-  onSelectChange = selectedRowKeys => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({ selectedRowKeys });
-  };
+  }
 
   render() {
-    const { loading, selectedRowKeys } = this.state;
+    const { loading, selectedRowKeys, data } = this.state;
+
+    const components = {
+      body: {
+        row: EditableFormRow,
+        cell: EditableCell,
+      },
+    };
+
+    const columns = this.columns.map((col) => {
+      if (!col.editable) {
+        return col;
+      }
+      return {
+        ...col,
+        onCell: record => ({
+          record,
+          inputType: col.dataIndex === 'age' ? 'number' : 'text',
+          dataIndex: col.dataIndex,
+          title: col.title,
+          editing: this.isEditing(record),
+        }),
+      };
+    });
+    const hasSelected = selectedRowKeys.length > 0;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
     };
-    const hasSelected = selectedRowKeys.length > 0;
-
     return (
-      <div className={styles.normal}>
-        <Tabs defaultActiveKey="1" tabPosition={'top'}>
-          {listsCb.map(chatbot => (
-            <TabPane
-              tab={
-                <span>
-                  <Avatar src={BotAvarta} size='large'/>
-                  <Divider type='vertical'/>
-                  {chatbot.name}
-                </span>
-              }
-              key={chatbot.id}
+      <div>
+        <div style={{ marginBottom: 16 }}>
+          <Button style={{ marginLeft: 8, marginRight: 30 }} type="primary"
+            onClick={() => this.handleAdd()}
+          >
+            Thêm mới
+        </Button>
+          <Popconfirm
+            title="Bạn chắc chắn muốn xoá?"
+            cancelText='Huỷ lệnh'
+            okText='Xoá'
+            onConfirm={() => { console.log('??') }}
+          >
+            <Button
+              type="danger"
+              disabled={!hasSelected || loading}
             >
-              <Table
-                bordered
-                pagination={{ pageSize: 5 }}
-                // scroll={{ y: 240 }}
-                rowSelection={rowSelection}
-                columns={columns}
-                dataSource={chatbot.data}
-              />
-              <Row type="flex" justify="space-around">
-                <Col>
-                  <Button type="primary" shape="round" icon="plus-circle" size="default"
-                  onClick={() => {router.push('/inputQA')}}
-                  >
-                    Nhập dữ liệu cá nhân
-                  </Button>
-                </Col>
-                <Col>
-                  <Button type="primary" ghost icon="plus-square" shape="round">
-                    Thêm mới
-                  </Button>
-                </Col>
-                <Col>
-                  <Button type="danger" shape="round" icon="edit" size="default">
-                    Sửa
-                  </Button>
-                </Col>
-                <Col>
-                  <Button type="danger" shape="round" icon="delete" size="default">
-                    Xoá
-                  </Button>
-                </Col>
-              </Row>
-            </TabPane>
-          ))}
-        </Tabs>
+              Xoá
+            </Button>
+          </Popconfirm>
+          <span style={{ marginLeft: 8, marginRight: 30 }}>
+            {hasSelected ? `Đã chọn ${selectedRowKeys.length} chủ đề` : ''}
+          </span>
+
+        </div>
+        <Table
+          pagination={{ pageSize: 6 }} scroll={{ y: '50vh' }}
+          rowSelection={rowSelection}
+          components={components}
+          bordered
+          dataSource={data}
+          columns={columns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: this.cancel,
+          }}
+        />
+
       </div>
     );
   }
 }
 
-export default connect(state => ({ chatbots: state.chatbots }))(ChatbotList);
+export default EditableTable;

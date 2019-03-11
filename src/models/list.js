@@ -14,30 +14,34 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       // const response = yield call(queryFakeList, payload);
-      const response = [{
-        id: 0,
-        title: 'Hà Nội',
-        avarta,
-        description: 'Chatbot phục vụ hỏi đáp, nhắc lịch, tư vấn hành lang pháp lý',
-      },
-      {
-        id: 1,
-        title: 'Cần thơ',
-        avarta: avarta2,
-        description: 'Chatbot phục vụ hỏi đáp, nhắc lịch, tư vấn hành lang pháp lý, hỏi đáp thủ tục hành chính công',
-      },
-      {
-        id: 2,
-        title: 'Quảng Ninh',
-        avarta: avarta3,
-        description: 'Chatbot phục vụ hỏi đáp, nhắc lịch, tư vấn hành lang pháp lý',
-      },
-      {
-        id: 3,
-        title: 'Bán hàng',
-        avarta: avarta4,
-        description: 'Chatbot phục vụ bán hàng, hỏi đáp về giá cả, phục vụ mua bán, kiểm định chất lượng, so sánh,...',
-      }];
+      const response = [
+        {
+          id: 0,
+          title: 'Hà Nội',
+          avarta,
+          description: 'Chatbot phục vụ hỏi đáp, nhắc lịch, tư vấn hành lang pháp lý',
+        },
+        {
+          id: 1,
+          title: 'Cần thơ',
+          avarta: avarta2,
+          description:
+            'Chatbot phục vụ hỏi đáp, nhắc lịch, tư vấn hành lang pháp lý, hỏi đáp thủ tục hành chính công',
+        },
+        {
+          id: 2,
+          title: 'Quảng Ninh',
+          avarta: avarta3,
+          description: 'Chatbot phục vụ hỏi đáp, nhắc lịch, tư vấn hành lang pháp lý',
+        },
+        {
+          id: 3,
+          title: 'Bán hàng',
+          avarta: avarta4,
+          description:
+            'Chatbot phục vụ bán hàng, hỏi đáp về giá cả, phục vụ mua bán, kiểm định chất lượng, so sánh,...',
+        },
+      ];
       yield put({
         type: 'queryList',
         payload: Array.isArray(response) ? response : [],

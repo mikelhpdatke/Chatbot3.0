@@ -1,15 +1,4 @@
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Card,
-  Row,
-  Col,
-  Button,
-  Avatar,
-  Select,
-} from 'antd';
+import { Form, Input, Tooltip, Icon, Card, Row, Col, Button, Avatar, Select } from 'antd';
 import styles from './Info.less';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 // import Link from 'umi/link';
@@ -106,28 +95,28 @@ class Info extends React.Component {
 
     const headerContent = (
       <div className={styles.pageHeaderContent}>
-      <div className={styles.avatar}>
-        <Avatar size="large" src={currentUser.avatar} />
-      </div>
-      <div className={styles.content}>
-        <div className={styles.contentTitle}>
-          Xin chào,
-          {' ' + currentUser.name + ' '}
+        <div className={styles.avatar}>
+          <Avatar size="large" src={currentUser.avatar} />
         </div>
-        <div>
-          {currentUser.title} |{currentUser.group}
+        <div className={styles.content}>
+          <div className={styles.contentTitle}>
+            Xin chào,
+            {' ' + currentUser.name + ' '}
+          </div>
+          <div>
+            {currentUser.title} |{currentUser.group}
+          </div>
         </div>
       </div>
-    </div>
-    )
+    );
 
     return (
       <PageHeaderWrapper
         // title={'Nhập thông tin cho chatbot mới'}
         content={headerContent}
       >
-      <Card title='Thông tin cơ bản'>
-        {/* <div className={styles.normal}> */}
+        <Card title="Thông tin cơ bản">
+          {/* <div className={styles.normal}> */}
           <Form {...formItemLayout} onSubmit={this.handleSubmit} layout="horizontal">
             <Row type="flex" justify="center">
               <Col span={12}>
@@ -186,8 +175,8 @@ class Info extends React.Component {
               </Col>
             </Row>
           </Form>
-        {/* </div> */}
-      </Card>
+          {/* </div> */}
+        </Card>
       </PageHeaderWrapper>
     );
   }

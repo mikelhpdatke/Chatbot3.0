@@ -1,13 +1,5 @@
 import React, { Suspense } from 'react';
-import {
-  Form,
-  Icon,
-  Button,
-  Select,
-  Drawer,
-  Steps,
-  message
-} from 'antd';
+import { Form, Icon, Button, Select, Drawer, Steps, message } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 // import Link from 'umi/link';
 import router from 'umi/router';
@@ -32,7 +24,6 @@ class DrawerComponent extends React.Component {
     current: 0,
   };
 
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const { current } = this.state;
@@ -41,27 +32,41 @@ class DrawerComponent extends React.Component {
     const steps = [
       {
         title: 'Nhập thông tin cơ bản',
-        content: <Suspense fallback={<PageLoading />}><Info/></Suspense>
+        content: (
+          <Suspense fallback={<PageLoading />}>
+            <Info />
+          </Suspense>
+        ),
       },
       {
         title: 'Nhập câu chào',
-        content: <Suspense fallback={<PageLoading />}><DefaultQuestion /></Suspense>,
+        content: (
+          <Suspense fallback={<PageLoading />}>
+            <DefaultQuestion />
+          </Suspense>
+        ),
       },
       {
         title: 'Hoàn thành',
-        content: <Result
-        type="success"
-        title={<div style={{ background: '#7dbcea', color: '#fff' }}>Bạn đã điền xong thông tin</div>}
-        extra="Hãy nhập thêm câu hỏi cá nhân cho Chatbot của bạn để giúp Chatbot có thể trả lời nhiều câu hỏi chính xác hơn nhé!"
-      />,
-      }
+        content: (
+          <Result
+            type="success"
+            title={
+              <div style={{ background: '#7dbcea', color: '#fff' }}>Bạn đã điền xong thông tin</div>
+            }
+            extra="Hãy nhập thêm câu hỏi cá nhân cho Chatbot của bạn để giúp Chatbot có thể trả lời nhiều câu hỏi chính xác hơn nhé!"
+          />
+        ),
+      },
     ];
     let drawerWidth = window.innerWidth > 760 ? '60vw' : '90vw';
     return (
       <Drawer
         title="Tạo Chatbot mới"
         width={drawerWidth}
-        onClose={() => { this.props.dispatch({ type: 'drawerList/handle', payload: false }) }}
+        onClose={() => {
+          this.props.dispatch({ type: 'drawerList/handle', payload: false });
+        }}
         visible={drawerList.open}
         style={{
           overflow: 'auto',
@@ -70,15 +75,14 @@ class DrawerComponent extends React.Component {
         }}
       >
         <Steps current={current} className={styles.steps}>
-          {steps.map(item => <Step key={item.title} title={item.title} />)}
+          {steps.map(item => (
+            <Step key={item.title} title={item.title} />
+          ))}
         </Steps>
+        <div>{steps[current].content}</div>
         <div>
-          {steps[current].content}
-        </div>
-        <div>
-          {
-            current < steps.length - 1
-            && <Button
+          {current < steps.length - 1 && (
+            <Button
               type="primary"
               size="large"
               htmlType="submit"
@@ -88,11 +92,9 @@ class DrawerComponent extends React.Component {
               Tiếp tục
               <Icon type="right" />
             </Button>
-
-          }
-          {
-            current === steps.length - 1
-            && <Button
+          )}
+          {current === steps.length - 1 && (
+            <Button
               type="primary"
               size="large"
               htmlType="submit"
@@ -102,13 +104,14 @@ class DrawerComponent extends React.Component {
                 this.setState({ current: 0 });
                 this.props.dispatch({
                   type: 'drawerList/handle',
-                  payload: false
-                })
+                  payload: false,
+                });
               }}
-            ><Icon type="save" />
+            >
+              <Icon type="save" />
               Hoàn thành
             </Button>
-          }
+          )}
         </div>
       </Drawer>
     );
