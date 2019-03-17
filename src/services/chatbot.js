@@ -1,5 +1,5 @@
 // import { stringify } from 'qs';
-import request from '@/utils/request';
+// import request from '@/utils/request';
 import { post } from '@/utils/httpRequest';
 
 export async function getChatbots(params) {

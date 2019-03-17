@@ -18,7 +18,7 @@ const plugins = [
       },
       locale: {
         enable: false, // default false
-        default: 'en-US', // default zh-CN
+        default: 'vi-VN', // default vi-VN
         baseNavigator: true, // default true, when it is true, will use `navigator.language` overwrite default
       },
       dynamicImport: {

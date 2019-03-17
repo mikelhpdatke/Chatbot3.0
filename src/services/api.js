@@ -1,7 +1,7 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
-import { async } from 'q';
-import { func } from 'prop-types';
+// import { async } from 'q';
+// import { func } from 'prop-types';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');

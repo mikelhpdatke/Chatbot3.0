@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
 import router from 'umi/router';
-import { Form, Input, Button, Select, Row, Col, Popover, Progress, Icon, Tooltip } from 'antd';
+import { Form, Input, Button, Select, Popover, Progress, Icon } from 'antd';
 import styles from './Register.less';
 
 const FormItem = Form.Item;
@@ -175,8 +175,13 @@ class Register extends Component {
 
   render() {
     const { form, submitting } = this.props;
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
-    const { count, prefix, help, visible } = this.state;
+    const { getFieldDecorator, getFieldError, isFieldTouched } = form;
+    const {
+      // count,
+      prefix,
+      help,
+      visible,
+    } = this.state;
     const userNameError = isFieldTouched('userName') && getFieldError('userName');
 
     return (
