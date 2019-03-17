@@ -18,6 +18,7 @@ export default [
         component: './User/RegisterResult',
       },
     ],
+    // authority: ['admin'], // only admin can access
   },
   // app
   {
@@ -33,6 +34,7 @@ export default [
         name: 'dashboard',
         icon: 'dashboard',
         component: './Dashboard/Analysis',
+        authority: ['admin'],
       },
       // Quản lý chatbot
       {
@@ -45,12 +47,14 @@ export default [
             name: 'listchatbot',
             icon: 'ordered-list',
             component: './Chatbots/List/List',
+            authority: ['admin'],
           },
           {
             path: '/chatbots/inputQA',
             name: 'inputPersonalData',
             icon: 'reconciliation',
             component: './Chatbots/InputQA/InputQA',
+            authority: ['admin'],
           },
         ],
       },
@@ -72,14 +76,17 @@ export default [
               {
                 path: '/account/center/articles',
                 component: './Account/Center/Articles',
+                authority: ['admin'],
               },
               {
                 path: '/account/center/applications',
                 component: './Account/Center/Applications',
+                authority: ['admin'],
               },
               {
                 path: '/account/center/projects',
                 component: './Account/Center/Projects',
+                authority: ['admin'],
               },
             ],
           },
@@ -95,18 +102,22 @@ export default [
               {
                 path: '/account/settings/base',
                 component: './Account/Settings/BaseView',
+                authority: ['admin'],
               },
               {
                 path: '/account/settings/security',
                 component: './Account/Settings/SecurityView',
+                authority: ['admin'],
               },
               {
                 path: '/account/settings/binding',
                 component: './Account/Settings/BindingView',
+                authority: ['admin'],
               },
               {
                 path: '/account/settings/notification',
                 component: './Account/Settings/NotificationView',
+                authority: ['admin'],
               },
             ],
           },

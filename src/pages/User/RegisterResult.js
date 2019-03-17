@@ -12,10 +12,8 @@ const actions = (
         <FormattedMessage id="app.register-result.view-mailbox" />
       </Button>
     </a>
-    <Link to="/">
-      <Button size="large">
-        <FormattedMessage id="app.register-result.back-home" />
-      </Button>
+    <Link to="/user/login">
+      <Button size="large">Login</Button>
     </Link>
   </div>
 );

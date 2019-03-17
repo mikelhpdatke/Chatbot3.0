@@ -1,9 +1,10 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
-import { setAuthority } from '@/utils/authority';
+import { getFakeCaptcha } from '@/services/api';
+import { setAuthority, setToken } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
+import { login as loginRequest } from '@/services/user';
 
 export default {
   namespace: 'login',
@@ -14,18 +15,21 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      // const response = yield call(fakeAccountLogin, payload);
-      const response = {
-        status: 'ok',
-        type: 'changeLoginStatus',
+      const { userName: TenDangNhap, password: MatKhau } = payload;
+      let response = yield call(loginRequest, { TenDangNhap, MatKhau });
+      // console.log('in login..', response, payload);
+      response = {
+        ...response,
+        // type: 'changeLoginStatus',
         currentAuthority: 'admin',
+        TenDangNhap,
       };
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (response.status) {
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -73,6 +77,7 @@ export default {
   reducers: {
     changeLoginStatus(state, { payload }) {
       setAuthority(payload.currentAuthority);
+      setToken(payload.token);
       return {
         ...state,
         status: payload.status,

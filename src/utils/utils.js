@@ -3,6 +3,8 @@ import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
 
+export const ipServer = 'http://34.73.92.252:3030';
+
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
 }

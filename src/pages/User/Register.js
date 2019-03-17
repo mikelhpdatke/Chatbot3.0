@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
 import router from 'umi/router';
-import { Form, Input, Button, Select, Row, Col, Popover, Progress } from 'antd';
+import { Form, Input, Button, Select, Row, Col, Popover, Progress, Icon, Tooltip } from 'antd';
 import styles from './Register.less';
 
 const FormItem = Form.Item;
@@ -51,7 +51,7 @@ class Register extends Component {
   componentDidUpdate() {
     const { form, register } = this.props;
     const account = form.getFieldValue('mail');
-    if (register.status === 'ok') {
+    if (register.status) {
       router.push({
         pathname: '/user/register-result',
         state: {
@@ -175,30 +175,27 @@ class Register extends Component {
 
   render() {
     const { form, submitting } = this.props;
-    const { getFieldDecorator } = form;
+    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = form;
     const { count, prefix, help, visible } = this.state;
+    const userNameError = isFieldTouched('userName') && getFieldError('userName');
+
     return (
       <div className={styles.main}>
-        <h3>
+        {/* <h3>
           <FormattedMessage id="app.register.register" />
-        </h3>
+        </h3> */}
         <Form onSubmit={this.handleSubmit}>
-          <FormItem>
-            {getFieldDecorator('mail', {
-              rules: [
-                {
-                  required: true,
-                  message: formatMessage({ id: 'validation.email.required' }),
-                },
-                {
-                  type: 'email',
-                  message: formatMessage({ id: 'validation.email.wrong-format' }),
-                },
-              ],
+          <Form.Item validateStatus={userNameError ? 'error' : ''} help={userNameError || ''}>
+            {getFieldDecorator('userName', {
+              rules: [{ required: true, message: 'Please input your username!' }],
             })(
-              <Input size="large" placeholder={formatMessage({ id: 'form.email.placeholder' })} />
+              <Input
+                size="large"
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="Username"
+              />
             )}
-          </FormItem>
+          </Form.Item>
           <FormItem help={help}>
             <Popover
               getPopupContainer={node => node.parentNode}
@@ -250,6 +247,27 @@ class Register extends Component {
             )}
           </FormItem>
           <FormItem>
+            {getFieldDecorator('mail', {
+              rules: [
+                {
+                  required: true,
+                  message: formatMessage({ id: 'validation.email.required' }),
+                },
+                {
+                  type: 'email',
+                  message: formatMessage({ id: 'validation.email.wrong-format' }),
+                },
+              ],
+            })(
+              <Input size="large" placeholder={formatMessage({ id: 'form.email.placeholder' })} />
+            )}
+          </FormItem>
+          <Form.Item>
+            {getFieldDecorator('nickname', {
+              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            })(<Input size="large" placeholder="Your nickname" />)}
+          </Form.Item>
+          <FormItem>
             <InputGroup compact>
               <Select
                 size="large"
@@ -266,7 +284,7 @@ class Register extends Component {
                     message: formatMessage({ id: 'validation.phone-number.required' }),
                   },
                   {
-                    pattern: /^\d{11}$/,
+                    pattern: /^\d{9}$/,
                     message: formatMessage({ id: 'validation.phone-number.wrong-format' }),
                   },
                 ],
@@ -279,7 +297,7 @@ class Register extends Component {
               )}
             </InputGroup>
           </FormItem>
-          <FormItem>
+          {/* <FormItem>
             <Row gutter={8}>
               <Col span={16}>
                 {getFieldDecorator('captcha', {
@@ -309,7 +327,7 @@ class Register extends Component {
                 </Button>
               </Col>
             </Row>
-          </FormItem>
+          </FormItem> */}
           <FormItem>
             <Button
               size="large"
