@@ -193,7 +193,7 @@ const getFakeChartData = {
   radarData,
 };
 
-/////
+// ///
 export default {
   namespace: 'chart',
 

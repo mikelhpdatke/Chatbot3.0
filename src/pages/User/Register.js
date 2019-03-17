@@ -41,7 +41,7 @@ const passwordProgressMap = {
 @Form.create()
 class Register extends Component {
   state = {
-    count: 0,
+    // count: 0,
     confirmDirty: false,
     visible: false,
     help: '',
