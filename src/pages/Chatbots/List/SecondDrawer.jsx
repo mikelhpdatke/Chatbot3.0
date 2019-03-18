@@ -32,16 +32,31 @@ class SecondDrawerComponent extends React.Component {
     current: 0,
   };
 
+  // componentWillMount(){
+  //   const { SecondDrawer, dispatch } = this.props;
+  //   const chatbot = SecondDrawer?.chatbot;
+  //   console.log(chatbot);
+  //   dispatch({
+  //     type: 'SecondDrawer/fetchTopics',
+  //     payload: {
+  //       chatbot,
+  //     }
+  //   })
+  // }
+
   render() {
     // const { getFieldDecorator } = this.props.form;
     const { SecondDrawer } = this.props;
     const drawerWidth = window.innerWidth > 760 ? '60vw' : '90vw';
     return (
       <Drawer
-        title={"Chỉnh sửa chatbot: " + SecondDrawer.chatbot}
+        title={`Chỉnh sửa chatbot: ${SecondDrawer.chatbot}`}
         width={drawerWidth}
         onClose={() => {
-          this.props.dispatch({ type: 'SecondDrawer/handle', payload: { open: false, chatbot: '' } });
+          this.props.dispatch({
+            type: 'SecondDrawer/handle',
+            payload: { open: false, chatbot: '' },
+          });
         }}
         visible={SecondDrawer.open}
         style={{

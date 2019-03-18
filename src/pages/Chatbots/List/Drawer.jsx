@@ -25,9 +25,9 @@ class DrawerComponent extends React.Component {
   };
 
   increase = () => {
-    console.log('inc??');
+    // console.log('inc??');
     this.setState(state => ({ current: state.current + 1 }));
-  }
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -64,14 +64,14 @@ class DrawerComponent extends React.Component {
         ),
       },
     ];
-    console.log(current,'??');
+    // console.log(current,'??');
     const drawerWidth = window.innerWidth > 760 ? '60vw' : '90vw';
     return (
       <Drawer
         title="Tạo Chatbot mới"
         width={drawerWidth}
         onClose={() => {
-          this.setState({ current: 0});
+          this.setState({ current: 0 });
           this.props.dispatch({ type: 'drawerList/handle', payload: false });
         }}
         visible={drawerList.open}

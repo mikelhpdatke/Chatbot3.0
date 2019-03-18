@@ -8,11 +8,11 @@ export async function getChatbots(params) {
   //   method: 'POST',
   //   body: new FormData({ ...params })
   // });
-  return PostAppJson(`${ipServer  }api/chatbot/list`, params);
+  return PostAppJson(`${ipServer}/api/chatbot/list`, params);
 }
 
 export async function getTopics(params) {
-  return post(`${ipServer  }api/chatbot/topic/list`, params);
+  return PostAppJson(`${ipServer}/api/chatbot/topic/list`, params);
 }
 
 export async function getRecentlyAIML(params) {

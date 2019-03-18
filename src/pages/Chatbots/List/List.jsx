@@ -13,7 +13,7 @@ const DrawerModify = React.lazy(() => import('./SecondDrawer'));
 @connect(({ list, drawerList, loading }) => ({
   list,
   drawerList,
-  loading: loading.models.list,
+  loading: loading.models.list || loading.models.SecondDrawer,
 }))
 class CardList extends PureComponent {
   componentDidMount() {
@@ -62,14 +62,17 @@ class CardList extends PureComponent {
                         >
                           Nhập dữ liệu
                         </a>,
-                        <a onClick={() => {
-                          this.props.dispatch({
-                            type: 'SecondDrawer/handle', payload: {
-                              open: true, chatbot: item.title
-                            },
-                          });
-                        }}
-                        >Chỉnh sửa
+                        <a
+                          onClick={() => {
+                            this.props.dispatch({
+                              type: 'SecondDrawer/fetchTopics',
+                              payload: {
+                                chatbot: item.title,
+                              },
+                            });
+                          }}
+                        >
+                          Chỉnh sửa
                         </a>,
                       ]}
                     >
@@ -93,16 +96,16 @@ class CardList extends PureComponent {
                       type="dashed"
                       className={styles.newButton}
                       onClick={() => {
-                          this.props.dispatch({
-                            type: 'drawerList/handle',
-                            payload: true,
-                          });
-                        }}
+                        this.props.dispatch({
+                          type: 'drawerList/handle',
+                          payload: true,
+                        });
+                      }}
                     >
                       <Icon type="plus" /> Thêm Chatbot
                     </Button>
                   </List.Item>
-                  )
+                )
               }
             />
           </div>

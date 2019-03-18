@@ -1,8 +1,7 @@
-import {
-  Table, Input, InputNumber, Popconfirm, Form, Button,
-} from 'antd';
+import { Table, Input, InputNumber, Popconfirm, Form, Button } from 'antd';
 import styles from 'Modify.less';
-
+import { connect } from 'dva';
+import _ from 'lodash';
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
 
@@ -23,32 +22,28 @@ class EditableCell extends React.Component {
   };
 
   render() {
-    const {
-      editing,
-      dataIndex,
-      title,
-      inputType,
-      record,
-      index,
-      ...restProps
-    } = this.props;
+    const { editing, dataIndex, title, inputType, record, index, ...restProps } = this.props;
     return (
       <EditableContext.Consumer>
-        {(form) => {
+        {form => {
           const { getFieldDecorator } = form;
           return (
             <td {...restProps}>
               {editing ? (
                 <FormItem style={{ margin: 0 }}>
                   {getFieldDecorator(dataIndex, {
-                    rules: [{
-                      required: true,
-                      message: `Please Input ${title}!`,
-                    }],
+                    rules: [
+                      {
+                        required: true,
+                        message: `Please Input ${title}!`,
+                      },
+                    ],
                     initialValue: record[dataIndex],
                   })(this.getInput())}
                 </FormItem>
-              ) : restProps.children}
+              ) : (
+                restProps.children
+              )}
             </td>
           );
         }}
@@ -64,11 +59,18 @@ for (let i = 0; i < 20; i++) {
     content: 'Đây là nội dung của chủ đề Đây là nội dung của chủ đề Đây là nội dung của chủ đề',
   });
 }
+
+@connect(({ SecondDrawer, loading }) => ({
+  SecondDrawer,
+  loading: loading.models.SecondDrawer,
+}))
 class EditableTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data, editingKey: '', selectedRowKeys: [], // Check here to configure the default column
+      data,
+      editingKey: '',
+      selectedRowKeys: [], // Check here to configure the default column
       loading: false,
       count: 20,
     };
@@ -107,16 +109,16 @@ class EditableTable extends React.Component {
                   </EditableContext.Consumer>
                   <Popconfirm
                     title="Bạn muốn huỷ thay đổi?"
-                    cancelText='Không'
-                    okText='Huỷ'
+                    cancelText="Không"
+                    okText="Huỷ"
                     onConfirm={() => this.cancel(record.key)}
                   >
                     <a>Huỷ</a>
                   </Popconfirm>
                 </span>
               ) : (
-                  <a onClick={() => this.edit(record.key)}>Sửa</a>
-                )}
+                <a onClick={() => this.edit(record.key)}>Sửa</a>
+              )}
             </div>
           );
         },
@@ -132,10 +134,10 @@ class EditableTable extends React.Component {
       content: '',
     };
     this.setState({
-      data: [newData, ...data,],
+      data: [newData, ...data],
       count: count + 1,
     });
-  }
+  };
 
   isEditing = record => record.key === this.state.editingKey;
 
@@ -168,10 +170,10 @@ class EditableTable extends React.Component {
     this.setState({ editingKey: key });
   }
 
-  onSelectChange = (selectedRowKeys) => {
+  onSelectChange = selectedRowKeys => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
-  }
+  };
 
   start = () => {
     this.setState({ loading: true });
@@ -182,11 +184,18 @@ class EditableTable extends React.Component {
         loading: false,
       });
     }, 1000);
-  }
+  };
 
   render() {
-    const { loading, selectedRowKeys, data } = this.state;
-
+    const { loading, selectedRowKeys } = this.state;
+    const { SecondDrawer } = this.props;
+    // console.log(SecondDrawer,'????');
+    const data = _.get(SecondDrawer, 'topics', []).map((data, index) => ({
+      key: index.toString(),
+      topic: data.TenTopic,
+      content: data.NoiDung,
+    }));
+    // console.log(data);
     const components = {
       body: {
         row: EditableFormRow,
@@ -194,7 +203,7 @@ class EditableTable extends React.Component {
       },
     };
 
-    const columns = this.columns.map((col) => {
+    const columns = this.columns.map(col => {
       if (!col.editable) {
         return col;
       }
@@ -217,31 +226,32 @@ class EditableTable extends React.Component {
     return (
       <div>
         <div style={{ marginBottom: 16 }}>
-          <Button style={{ marginLeft: 8, marginRight: 30 }} type="primary"
+          <Button
+            style={{ marginLeft: 8, marginRight: 30 }}
+            type="primary"
             onClick={() => this.handleAdd()}
           >
             Thêm mới
-        </Button>
+          </Button>
           <Popconfirm
             title="Bạn chắc chắn muốn xoá?"
-            cancelText='Huỷ lệnh'
-            okText='Xoá'
-            onConfirm={() => { console.log('??') }}
+            cancelText="Huỷ lệnh"
+            okText="Xoá"
+            onConfirm={() => {
+              console.log('??');
+            }}
           >
-            <Button
-              type="danger"
-              disabled={!hasSelected || loading}
-            >
+            <Button type="danger" disabled={!hasSelected || loading}>
               Xoá
             </Button>
           </Popconfirm>
           <span style={{ marginLeft: 8, marginRight: 30 }}>
             {hasSelected ? `Đã chọn ${selectedRowKeys.length} chủ đề` : ''}
           </span>
-
         </div>
         <Table
-          pagination={{ pageSize: 6 }} scroll={{ y: '50vh' }}
+          pagination={{ pageSize: 6 }}
+          scroll={{ y: '50vh' }}
           rowSelection={rowSelection}
           components={components}
           bordered
@@ -252,7 +262,6 @@ class EditableTable extends React.Component {
             onChange: this.cancel,
           }}
         />
-
       </div>
     );
   }
