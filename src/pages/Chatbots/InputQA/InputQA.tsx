@@ -12,7 +12,7 @@ const EditableTable = React.lazy(() => import('./Table/Table'));
 @connect(({ chatbots, loading, dispatch }) => ({
   chatbots,
   dispatch,
-  loading: loading.effects['chatbots/fetchChatbots'],
+  loading: loading.models.chatbots,
 }))
 class CustomQuestion extends React.Component {
   handleChange = value => {

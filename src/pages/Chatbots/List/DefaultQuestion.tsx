@@ -3,7 +3,7 @@ import styles from './DefaultQuestion.less';
 // import Link from 'umi/link';
 import router from 'umi/router';
 import { connect } from 'dva';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+// import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 let id = 0;
 
 @connect(({ user, loading }) => ({
@@ -43,7 +43,8 @@ class DefaultQuestion extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        router.push('/inputQA');
+        this.props.increaseCurrent();
+        // router.push('/inputQA');
       }
     });
   };
@@ -148,7 +149,22 @@ class DefaultQuestion extends React.Component {
                   })(<Input placeholder="Câu trả lời" style={{ width: '100%', marginRight: 8 }} />)}
                 </Form.Item>
               </Card>
-              {/* // */}
+            </Col>
+          </Row>
+          <Row>
+            <Col span={4} offset={20}>
+              <Form.Item >
+              <Button
+              type="primary"
+              size="large"
+              htmlType="submit"
+              // onClick={}
+              className={styles.nextButton}
+            >
+              Tiếp tục
+              <Icon type="right" />
+            </Button>
+              </Form.Item>
             </Col>
           </Row>
         </Form>

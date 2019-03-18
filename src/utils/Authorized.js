@@ -8,5 +8,8 @@ const reloadAuthorized = () => {
   Authorized = RenderAuthorized(getAuthority());
 };
 
-export { reloadAuthorized };
+const getToken = () => {
+  return localStorage.getItem('token');
+}
+export { reloadAuthorized, getToken };
 export default Authorized;

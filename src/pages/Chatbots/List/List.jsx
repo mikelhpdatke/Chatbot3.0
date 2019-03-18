@@ -74,31 +74,34 @@ class CardList extends PureComponent {
                       ]}
                     >
                       <Card.Meta
-                        avatar={<img alt="" className={styles.cardAvatar} src={item.avarta} />}
+                        avatar={<img alt="" className={styles.cardAvatar} src={item.avatar} />}
                         title={<a>{item.title}</a>}
                         description={
-                          <Ellipsis className={styles.item} lines={3}>
-                            {item.description}
-                          </Ellipsis>
+                          <React.Fragment>
+                            <Ellipsis className={styles.item} lines={3}>
+                              {item.description}
+                              <div>Lĩnh vực: {item.fields}</div>
+                            </Ellipsis>
+                          </React.Fragment>
                         }
                       />
                     </Card>
                   </List.Item>
                 ) : (
-                    <List.Item>
-                      <Button
-                        type="dashed"
-                        className={styles.newButton}
-                        onClick={() => {
+                  <List.Item>
+                    <Button
+                      type="dashed"
+                      className={styles.newButton}
+                      onClick={() => {
                           this.props.dispatch({
                             type: 'drawerList/handle',
                             payload: true,
                           });
                         }}
-                      >
-                        <Icon type="plus" /> Thêm Chatbot
-                      </Button>
-                    </List.Item>
+                    >
+                      <Icon type="plus" /> Thêm Chatbot
+                    </Button>
+                  </List.Item>
                   )
               }
             />

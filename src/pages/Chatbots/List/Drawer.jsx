@@ -24,6 +24,11 @@ class DrawerComponent extends React.Component {
     current: 0,
   };
 
+  increase = () => {
+    console.log('inc??');
+    this.setState(state => ({ current: state.current + 1 }));
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { current } = this.state;
@@ -34,7 +39,7 @@ class DrawerComponent extends React.Component {
         title: 'Nhập thông tin cơ bản',
         content: (
           <Suspense fallback={<PageLoading />}>
-            <Info />
+            <Info increaseCurrent={this.increase} />
           </Suspense>
         ),
       },
@@ -42,7 +47,7 @@ class DrawerComponent extends React.Component {
         title: 'Nhập câu chào',
         content: (
           <Suspense fallback={<PageLoading />}>
-            <DefaultQuestion />
+            <DefaultQuestion increaseCurrent={this.increase} />
           </Suspense>
         ),
       },
@@ -59,12 +64,14 @@ class DrawerComponent extends React.Component {
         ),
       },
     ];
-    let drawerWidth = window.innerWidth > 760 ? '60vw' : '90vw';
+    console.log(current,'??');
+    const drawerWidth = window.innerWidth > 760 ? '60vw' : '90vw';
     return (
       <Drawer
         title="Tạo Chatbot mới"
         width={drawerWidth}
         onClose={() => {
+          this.setState({ current: 0});
           this.props.dispatch({ type: 'drawerList/handle', payload: false });
         }}
         visible={drawerList.open}
@@ -81,7 +88,7 @@ class DrawerComponent extends React.Component {
         </Steps>
         <div>{steps[current].content}</div>
         <div>
-          {current < steps.length - 1 && (
+          {/* {current < steps.length - 1 && (
             <Button
               type="primary"
               size="large"
@@ -92,7 +99,7 @@ class DrawerComponent extends React.Component {
               Tiếp tục
               <Icon type="right" />
             </Button>
-          )}
+          )} */}
           {current === steps.length - 1 && (
             <Button
               type="primary"

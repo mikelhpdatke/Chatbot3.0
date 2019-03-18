@@ -17,10 +17,13 @@ class Info extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    console.log('???');
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(err, values);
       if (!err) {
         console.log('Received values of form: ', values);
-        router.push('/create/defaultQuestion');
+        this.props.increaseCurrent();
+        // router.push('/create/defaultQuestion');
       }
     });
   };
@@ -30,32 +33,6 @@ class Info extends React.Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
-    } else {
-      callback();
-    }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-  };
-
-  handleWAddressChange = value => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-    }
-    this.setState({ autoCompleteResult });
-  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -83,13 +60,6 @@ class Info extends React.Component {
         },
       },
     };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '84',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="84">+84</Option>
-      </Select>
-    );
 
     return (
       <Card title="Thông tin cơ bản">
@@ -124,14 +94,9 @@ class Info extends React.Component {
                   </Select>
                 )}
               </Form.Item>
-              <Form.Item label="Số điện thoại">
-                {getFieldDecorator('phone', {
-                  rules: [{ required: true, message: 'Điền số điện thoại!' }],
-                })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-              </Form.Item>
-              <Form.Item label="Địa chỉ">
-                {getFieldDecorator('address', {
-                  rules: [{ required: true, message: 'Điền địa chỉ' }],
+              <Form.Item label="Ghi chú">
+                {getFieldDecorator('note', {
+                  rules: [{ required: true, message: 'Điền ghi chú cho chatbot' }],
                 })(<Input />)}
               </Form.Item>
             </Col>
@@ -139,15 +104,20 @@ class Info extends React.Component {
           <Row>
             <Col span={4} offset={20}>
               <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" size="large" htmlType="submit" className={styles.nextButton}>
-                  Tiếp tục
-                  <Icon type="right" />
-                </Button>
+              <Button
+              type="primary"
+              size="large"
+              htmlType="submit"
+              // onClick={}
+              className={styles.nextButton}
+            >
+              Tiếp tục
+              <Icon type="right" />
+            </Button>
               </Form.Item>
             </Col>
           </Row>
         </Form>
-        {/* </div> */}
       </Card>
     );
   }

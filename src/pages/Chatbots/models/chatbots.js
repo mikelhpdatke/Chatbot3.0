@@ -1,10 +1,11 @@
-import { getChatbots } from '@/services/chatbot';
+import { getChatbots, getTopics } from '@/services/chatbot';
 // import { connect } from 'dva';
 
 export default {
   namespace: 'chatbots',
   state: {
     chatbots: [],
+    topics: [],
     chatbot: {
       id: -1,
       name: '',
@@ -23,6 +24,13 @@ export default {
         payload: response,
       });
     },
+    *fetchTopics({ payload }, { call, put}) {
+      const response = yield call(getTopics, payload);
+      yield put({
+        type: 'getTopics',
+        payload: response,
+      })
+    }
   },
   reducers: {
     saveChatbot(state, action) {
@@ -43,6 +51,12 @@ export default {
         chatbots: action.payload,
       };
     },
+    getTopics(state, action) {
+      return {
+        ...state,
+        topics: action.payload,
+      }
+    }
   },
   subscriptions: {
     setup({ dispatch, history }) {

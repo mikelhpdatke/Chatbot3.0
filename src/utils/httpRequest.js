@@ -1,3 +1,5 @@
+// import { func } from "prop-types";
+import { getToken } from '@/utils/Authorized';
 /* eslint-disable no-restricted-syntax */
 // eslint-disable-next-line import/prefer-default-export
 export async function post(url, json) {
@@ -19,7 +21,7 @@ export async function post(url, json) {
   });
   const result = fetch(myRequest)
     .then(response => {
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
       throw new Error(response);
@@ -29,3 +31,30 @@ export async function post(url, json) {
     .then(response => response);
   return result;
 }
+
+export async function PostAppJson(url, json) {
+  const myRequest = new Request(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: getToken(),
+    },
+    body: JSON.stringify(json),
+  });
+  const result = fetch(myRequest)
+    .then(response => {
+      // console.log(response);
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      throw new Error(response);
+      // console.log('err');
+      // return 'err';
+      // return Promise.reject(new Error('err status != 200'));
+      // console.log('Something went wrong on api server!');
+    })
+    .then(response => response)
+  return result;
+}
+
