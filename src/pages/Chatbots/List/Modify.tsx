@@ -15,9 +15,6 @@ const EditableFormRow = Form.create()(EditableRow);
 
 class EditableCell extends React.Component {
   getInput = () => {
-    if (this.props.inputType === 'number') {
-      return <InputNumber />;
-    }
     return <Input />;
   };
 
@@ -31,14 +28,14 @@ class EditableCell extends React.Component {
             <td {...restProps}>
               {editing ? (
                 <FormItem style={{ margin: 0 }}>
-                  {getFieldDecorator(dataIndex, {
+                  {getFieldDecorator(dataIndex || 'init', {
                     rules: [
                       {
                         required: true,
                         message: `Please Input ${title}!`,
                       },
                     ],
-                    initialValue: record[dataIndex],
+                    initialValue: _.get(record, [dataIndex], ''),
                   })(this.getInput())}
                 </FormItem>
               ) : (
@@ -51,14 +48,6 @@ class EditableCell extends React.Component {
     );
   }
 }
-const data = [];
-for (let i = 0; i < 20; i++) {
-  data.push({
-    key: i.toString(),
-    topic: 'Câu hỏi chung',
-    content: 'Đây là nội dung của chủ đề Đây là nội dung của chủ đề Đây là nội dung của chủ đề',
-  });
-}
 
 @connect(({ SecondDrawer, loading }) => ({
   SecondDrawer,
@@ -68,7 +57,7 @@ class EditableTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data,
+      // data,
       editingKey: '',
       selectedRowKeys: [], // Check here to configure the default column
       loading: false,
@@ -91,7 +80,7 @@ class EditableTable extends React.Component {
         title: 'Tuỳ chọn',
         dataIndex: 'operation',
         render: (text, record) => {
-          const editable = this.isEditing(record);
+          const editable = true;
           return (
             <div>
               {editable ? (
@@ -126,17 +115,29 @@ class EditableTable extends React.Component {
     ];
   }
 
+  toRealData = (SecondDrawer) => {
+    return _.get(SecondDrawer, 'topics', []).map((data, index) => ({
+      key: index.toString(),
+      topic: data.TenTopic,
+      content: data.NoiDung,
+    }));
+  }
+
   handleAdd = () => {
-    const { count, data } = this.state;
-    const newData = {
-      key: count,
-      topic: '',
-      content: '',
-    };
-    this.setState({
-      data: [newData, ...data],
-      count: count + 1,
+    const { SecondDrawer, dispatch } = this.props;
+    const { topics, chatbot } = SecondDrawer;
+    // console.log(data);
+    topics.push({
+      TenChatbot: chatbot,
+      TenTopic: '',
+      NoiDung: '',
+      GhiChu:''
     });
+    // console.log(data);
+    dispatch({
+      type: 'SecondDrawer/saveTopics',
+      payload: topics,
+    })
   };
 
   isEditing = record => record.key === this.state.editingKey;
@@ -189,12 +190,8 @@ class EditableTable extends React.Component {
   render() {
     const { loading, selectedRowKeys } = this.state;
     const { SecondDrawer } = this.props;
-    // console.log(SecondDrawer,'????');
-    const data = _.get(SecondDrawer, 'topics', []).map((data, index) => ({
-      key: index.toString(),
-      topic: data.TenTopic,
-      content: data.NoiDung,
-    }));
+    console.log(SecondDrawer);
+    const data = this.toRealData(SecondDrawer);
     // console.log(data);
     const components = {
       body: {
@@ -214,7 +211,7 @@ class EditableTable extends React.Component {
           inputType: col.dataIndex === 'age' ? 'number' : 'text',
           dataIndex: col.dataIndex,
           title: col.title,
-          editing: this.isEditing(record),
+          editing: true,
         }),
       };
     });
@@ -251,7 +248,7 @@ class EditableTable extends React.Component {
         </div>
         <Table
           pagination={{ pageSize: 6 }}
-          scroll={{ y: '50vh' }}
+          // scroll={{ y: '50vh' }}
           rowSelection={rowSelection}
           components={components}
           bordered

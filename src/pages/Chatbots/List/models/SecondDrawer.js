@@ -14,7 +14,7 @@ export default {
       const { chatbot: TenChatbot } = payload;
       // console.log(TenChatbot);
       const response = yield call(getTopics, { TenChatbot });
-      console.log('fetchtopic..', response);
+      // console.log('fetchtopic..', response);
       if (!response || !response.status) {
         message.error('Lấy danh sách chủ đề lỗi!!');
       }
