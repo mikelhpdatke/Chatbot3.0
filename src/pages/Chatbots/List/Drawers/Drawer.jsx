@@ -11,8 +11,8 @@ import PageLoading from '@/components/PageLoading';
 const { Option } = Select;
 const { Step } = Steps;
 
-const DefaultQuestion = React.lazy(() => import('./DefaultQuestion'));
-const Info = React.lazy(() => import('./Info'));
+const DefaultQuestion = React.lazy(() => import('../DefaultQuestion'));
+const Info = React.lazy(() => import('../Info'));
 
 // const AutoCompleteOption = AutoComplete.Option;
 

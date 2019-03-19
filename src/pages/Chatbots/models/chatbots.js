@@ -1,4 +1,4 @@
-import { getChatbots, getTopics } from '@/services/chatbot';
+import { getChatbots, getTopics, addTopic } from '@/services/chatbot';
 // import { connect } from 'dva';
 import { message } from 'antd';
 
@@ -19,6 +19,16 @@ export default {
         type: 'getChatbots',
         payload: response.data,
       });
+    },
+    *addTopic({ payload }, { call, put }) {
+      const response = yield call(addTopic, payload);
+      if (!response || !response.status) message.error('Thêm chủ đề bị lỗi');
+      else message.success('Thêm chủ đề thành công');
+      // console.log(payload);
+      // yield call({
+      //   type: 'fetchTopics',
+      //   payload: { TenChatbot: payload.TenChatbot },
+      // });
     },
     *fetchTopics({ payload }, { call, put}) {
       const response = yield call(getTopics, payload);

@@ -14,7 +14,7 @@ export async function getTopics(params) {
 }
 
 export async function addTopic(params) {
-  return PostAppJson(`${ipServer}/api/chatbot/topic/list`, params);
+  return PostAppJson(`${ipServer}/api/chatbot/add_chatbot_topic`, params);
 }
 
 export async function getRecentlyAIML(params) {

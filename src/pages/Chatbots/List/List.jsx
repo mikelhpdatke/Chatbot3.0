@@ -8,8 +8,8 @@ import styles from './List.less';
 import PageLoading from '@/components/PageLoading';
 
 // import DrawerNewChatbot from './Drawer';
-const DrawerNewChatbot = React.lazy(() => import('./Drawer'));
-const DrawerModify = React.lazy(() => import('./SecondDrawer'));
+const DrawerNewChatbot = React.lazy(() => import('./Drawers/Drawer'));
+const DrawerModify = React.lazy(() => import('./Drawers/SecondDrawer'));
 @connect(({ list, drawerList, loading }) => ({
   list,
   drawerList,
@@ -67,7 +67,7 @@ class CardList extends PureComponent {
                             this.props.dispatch({
                               type: 'SecondDrawer/fetchTopics',
                               payload: {
-                                chatbot: item.title,
+                                TenChatbot: item.title,
                               },
                             });
                           }}

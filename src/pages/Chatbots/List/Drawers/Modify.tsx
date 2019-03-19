@@ -1,4 +1,4 @@
-import { Table, Input, InputNumber, Popconfirm, Form, Button } from 'antd';
+import { Table, Input, Popconfirm, Form, Button } from 'antd';
 import styles from 'Modify.less';
 import { connect } from 'dva';
 import _ from 'lodash';
@@ -14,12 +14,17 @@ const EditableRow = ({ form, index, ...props }) => (
 const EditableFormRow = Form.create()(EditableRow);
 
 class EditableCell extends React.Component {
+
   getInput = () => {
-    return <Input />;
+    // let currentTopicValue = _.get(this.props.record, 'topic', '');
+    // console.log(this.props.record,'??', this.props.inputType === 'disabled', currentTopicValue === '');
+    // currentTopicVal === '' && inputType === 'disabled
+    return <Input disabled={this.props.dataIndex === 'topic'} />;
   };
 
   render() {
     const { editing, dataIndex, title, inputType, record, index, ...restProps } = this.props;
+    // console.log(editing,'/???');
     return (
       <EditableContext.Consumer>
         {form => {
@@ -58,6 +63,7 @@ class EditableTable extends React.Component {
     super(props);
     this.state = {
       // data,
+      visible: false ,
       editingKey: '',
       selectedRowKeys: [], // Check here to configure the default column
       loading: false,
@@ -67,20 +73,28 @@ class EditableTable extends React.Component {
       {
         title: 'Tên chủ đề',
         dataIndex: 'topic',
-        width: '30%',
+        width: '15%',
         editable: true,
       },
       {
         title: 'Nội dung',
         dataIndex: 'content',
-        width: '50%',
+        width: '35%',
+        editable: true,
+      },
+      {
+        title: 'Ghi chú',
+        dataIndex: 'note',
+        width: '35%',
         editable: true,
       },
       {
         title: 'Tuỳ chọn',
+        width: '15%',
         dataIndex: 'operation',
         render: (text, record) => {
-          const editable = true;
+          const editable = this.isEditing(record);
+          // console.log(editable,'////');
           return (
             <div>
               {editable ? (
@@ -115,29 +129,28 @@ class EditableTable extends React.Component {
     ];
   }
 
-  toRealData = (SecondDrawer) => {
+  toRealData = SecondDrawer => {
     return _.get(SecondDrawer, 'topics', []).map((data, index) => ({
       key: index.toString(),
       topic: data.TenTopic,
       content: data.NoiDung,
+      note: data.GhiChu,
     }));
-  }
+  };
 
   handleAdd = () => {
     const { SecondDrawer, dispatch } = this.props;
     const { topics, chatbot } = SecondDrawer;
-    // console.log(data);
-    topics.push({
+    topics.unshift({
       TenChatbot: chatbot,
       TenTopic: '',
       NoiDung: '',
-      GhiChu:''
+      GhiChu: '',
     });
-    // console.log(data);
     dispatch({
       type: 'SecondDrawer/saveTopics',
       payload: topics,
-    })
+    });
   };
 
   isEditing = record => record.key === this.state.editingKey;
@@ -190,7 +203,7 @@ class EditableTable extends React.Component {
   render() {
     const { loading, selectedRowKeys } = this.state;
     const { SecondDrawer } = this.props;
-    console.log(SecondDrawer);
+    // console.log(SecondDrawer);
     const data = this.toRealData(SecondDrawer);
     // console.log(data);
     const components = {
@@ -208,10 +221,11 @@ class EditableTable extends React.Component {
         ...col,
         onCell: record => ({
           record,
-          inputType: col.dataIndex === 'age' ? 'number' : 'text',
+          inputType: col.dataIndex === 'topic' ? 'disabled' : 'input',
           dataIndex: col.dataIndex,
           title: col.title,
-          editing: true,
+          editing: this.isEditing(record),
+          
         }),
       };
     });
@@ -222,11 +236,12 @@ class EditableTable extends React.Component {
     };
     return (
       <div>
+    
         <div style={{ marginBottom: 16 }}>
           <Button
             style={{ marginLeft: 8, marginRight: 30 }}
             type="primary"
-            onClick={() => this.handleAdd()}
+            onClick={() => this.props.showChildrenDrawer()}
           >
             Thêm mới
           </Button>
@@ -248,16 +263,15 @@ class EditableTable extends React.Component {
         </div>
         <Table
           pagination={{ pageSize: 6 }}
-          // scroll={{ y: '50vh' }}
+          scroll={{ y: '45vh' }}
           rowSelection={rowSelection}
           components={components}
           bordered
           dataSource={data}
           columns={columns}
-          rowClassName="editable-row"
-          pagination={{
-            onChange: this.cancel,
-          }}
+          // pagination={{
+          //   onChange: this.cancel,
+          // }}
         />
       </div>
     );

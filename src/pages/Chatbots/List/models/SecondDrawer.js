@@ -9,15 +9,12 @@ export default {
     topics: [],
   },
   effects: {
-    *addTopic({ payload }, { call, put }) {
-      // const response = yield call()
-    },
     *fetchTopics({ payload }, { call, put }) {
-      const { chatbot: TenChatbot } = payload;
-      const response = yield call(getTopics, { TenChatbot });
+      const response = yield call(getTopics, payload);
       if (!response || !response.status) {
         message.error('Lấy danh sách chủ đề lỗi!!');
       }
+      // console.log(payload,'??');
       yield put({
         type: 'saveTopics',
         payload: response.data,
@@ -26,7 +23,7 @@ export default {
         type: 'handle',
         payload: {
           open: true,
-          chatbot: payload.chatbot,
+          chatbot: payload.TenChatbot,
         },
       });
     },
