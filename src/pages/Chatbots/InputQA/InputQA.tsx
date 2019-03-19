@@ -5,7 +5,7 @@ import PageLoading from '@/components/PageLoading';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 const Option = Select.Option;
-
+import _ from 'lodash';
 const RecentlyAIMLTable = React.lazy(() => import('./RecentlyAIML/RecentlyAIML.jsx'));
 const EditableTable = React.lazy(() => import('./Table/Table'));
 
@@ -13,15 +13,24 @@ const EditableTable = React.lazy(() => import('./Table/Table'));
   chatbots,
   dispatch,
   loading: loading.models.chatbots,
+  loadingTopics: loading.effects['chatbots/fetchTopics'],
+  loadingChatbots: loading.effects['chatbots/fetchChatbots'],
 }))
 class CustomQuestion extends React.Component {
   handleChange = value => {
     // console.log(`selected ${value}`);
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    dispatch({
       type: 'chatbots/saveChatbot',
       payload: value,
     });
-    this.props.dispatch({
+    dispatch({
+      type: 'chatbots/fetchTopics',
+      payload: { 
+        TenChatbot: value,
+      }
+    });
+    dispatch({
       type: 'chatbots/saveTopic',
       payload: '',
     });
@@ -46,9 +55,9 @@ class CustomQuestion extends React.Component {
       },
     };
 
-    const { chatbots, loading } = this.props;
+    const { chatbots, loading, loadingChatbots, loadingTopics } = this.props;
     const { getFieldDecorator } = this.props.form;
-    // console.log(chatbots, loading);
+    console.log(chatbots, loading);
     const { chatbot, topic } = chatbots;
     // console.log(chatbot, chatbots);
     // console.log(chatbots);
@@ -56,7 +65,6 @@ class CustomQuestion extends React.Component {
     // console.log(chatbots.chatbots);
     return (
       <PageHeaderWrapper
-        // title={'Nhập câu hỏi tuỳ chọn cho chatbot của bạn'}
         title={
           <Alert
             message="Bạn có thể nhập nhiều câu hỏi và 1 câu trả lời"
@@ -65,7 +73,6 @@ class CustomQuestion extends React.Component {
             closable
           />
         }
-        // content={'Bạn có thể thực hiện các thao tác thêm, sửa, xoá và nhập dữ liệu'}
       >
         <div className={styles.normal}>
           <Timeline>
@@ -86,16 +93,18 @@ class CustomQuestion extends React.Component {
                           // placeholder="Chọn chatbot"
                           optionFilterProp="children"
                           onChange={this.handleChange}
-                          loading={loading}
+                          loading={loadingChatbots}
                           filterOption={(input, option) =>
                             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                           }
                         >
-                          {chatbots.chatbots.map(({ chatbot_name }, index) => {
+                          {_.get(chatbots, 'chatbots', [])
+                            .map((chatbot, index) => {
                             // console.log(chatbot_name);
+                            const TenChatbot = _.get(chatbot, 'TenChatbot', '');
                             return (
-                              <Option key={index} value={chatbot_name}>
-                                {chatbot_name}
+                              <Option key={index} value={TenChatbot}>
+                                {TenChatbot}
                               </Option>
                             );
                           })}
@@ -111,20 +120,19 @@ class CustomQuestion extends React.Component {
                           // placeholder="Chọn Topic"
                           optionFilterProp="children"
                           onChange={this.handleChangeTopic}
-                          loading={chatbot.id === -1 ? false : true}
-                          value={topic.name}
+                          loading={loadingTopics}
+                          value={topic}
                           filterOption={(input, option) =>
                             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                           }
                         >
-                          {chatbots.chatbots
-                            .filter(({ chatbot_name }) => chatbot_name === chatbot)
-                            .map(({ topic_list }) => {
-                              return topic_list.map((topic, index) => (
-                                <Option key={index} value={topic}>
-                                  {topic}
+                          {_.get(chatbots, 'topics', []).map((topic, index) => {
+                              const TenTopic = _.get(topic, 'TenTopic', '');
+                              return (
+                                <Option key={index} value={TenTopic}>
+                                  {TenTopic}
                                 </Option>
-                              ));
+                              );
                             })}
                         </Select>
                       </Form.Item>

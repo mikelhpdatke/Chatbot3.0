@@ -1,34 +1,31 @@
 import { getChatbots, getTopics } from '@/services/chatbot';
 // import { connect } from 'dva';
+import { message } from 'antd';
 
 export default {
   namespace: 'chatbots',
   state: {
     chatbots: [],
     topics: [],
-    chatbot: {
-      id: -1,
-      name: '',
-    },
-    topic: {
-      id: -1,
-      name: '',
-    },
+    chatbot: '',
+    topic: '',
   },
   effects: {
     *fetchChatbots(obj, { call, put }) {
       const response = yield call(getChatbots, obj);
       // console.log('in effect...', response);
+      if (!response || !response.status) message.error('Lấy thông tin chatbot bị lỗi')
       yield put({
         type: 'getChatbots',
-        payload: response,
+        payload: response.data,
       });
     },
     *fetchTopics({ payload }, { call, put}) {
       const response = yield call(getTopics, payload);
+      if (!response || !response.status) message.error('Lấy thông tin topic bị lỗi')  
       yield put({
         type: 'getTopics',
-        payload: response,
+        payload: response.data,
       })
     }
   },

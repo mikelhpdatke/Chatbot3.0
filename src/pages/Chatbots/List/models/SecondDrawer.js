@@ -9,12 +9,12 @@ export default {
     topics: [],
   },
   effects: {
+    *addTopic({ payload }, { call, put }) {
+      // const response = yield call()
+    },
     *fetchTopics({ payload }, { call, put }) {
-      // console.log(payload);
       const { chatbot: TenChatbot } = payload;
-      // console.log(TenChatbot);
       const response = yield call(getTopics, { TenChatbot });
-      // console.log('fetchtopic..', response);
       if (!response || !response.status) {
         message.error('Lấy danh sách chủ đề lỗi!!');
       }
