@@ -57,6 +57,7 @@ class EditableCell extends React.Component {
     const { editable, dataIndex, title, record, index, 
       handleSave, hint, ...restProps } = this.props;
     // console.log(hint, '///', record, title, dataIndex);
+    // console.log();
     return (
       <td ref={node => (this.cell = node)} {...restProps}>
         {editable ? (
@@ -75,8 +76,8 @@ class EditableCell extends React.Component {
                     initialValue: record[dataIndex],
                   })(
                     <AutoComplete
-                      dataSource={( dataIndex !== 'textQuestion' && hint) ? 
-                        [hint.get(record.key)] : []}
+                      dataSource={( dataIndex !== 'textQuestion' && hint && hint.get(record.key) ) ? 
+                      [hint.get(record.key)] || [] : []}
                     >
                       <Input
                         id={dataIndex}
@@ -98,8 +99,9 @@ class EditableCell extends React.Component {
   }
 }
 
-@connect(({AIMLTable, loading}) => ({
+@connect(({chatbots, AIMLTable, loading}) => ({
   AIMLTable,
+  chatbots,
   loading: loading.models.AIMLTable,
 }))
 class EditableTable extends React.Component {
@@ -168,14 +170,14 @@ class EditableTable extends React.Component {
       ...row,
     });
     this.setState({ dataSource: newData }, () => {
-      console.log(this.state.dataSource);
+      this.props.onSaveQA(this.state.dataSource);
     });
   };
 
   render() {
     const { dataSource } = this.state;
-    const { dispatch, AIMLTable } = this.props;
-    // console.log(AIMLTable);
+    const { dispatch, AIMLTable, chatbots } = this.props;
+    // console.log(AIMLTable.hint);
     const components = {
       body: {
         row: EditableFormRow,
@@ -198,9 +200,11 @@ class EditableTable extends React.Component {
         }),
       };
     });
+    // console.log(chatbots)
+    // console.log(chatbots.topic == '');
     return (
       <div>
-        <Button onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
+        <Button disabled={chatbots.chatbot == '' || chatbots.topic == ''} onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
           <Icon type="plus" />
           Thêm câu hỏi
         </Button>

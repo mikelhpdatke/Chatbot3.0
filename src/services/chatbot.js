@@ -25,6 +25,14 @@ export async function text2Pattern(params) {
   return PostAppJson(`${ipServer}/api/question/get_pattern`, params);
 }
 
+export async function pushData(params) {
+  return PostAppJson(`${ipServer}/api/question/add_to_topic`, params);
+}
+
+export async function getQA(params) {
+  return PostAppJson(`${ipServer}/api/question/get_from_topic`, params);
+}
+
 export async function getRecentlyAIML(params) {
   return post('http://34.73.92.252:3000/aimlquestions', params);
 }

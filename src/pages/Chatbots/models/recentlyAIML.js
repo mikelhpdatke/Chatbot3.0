@@ -1,4 +1,5 @@
-import { getRecentlyAIML } from '@/services/chatbot';
+import { getQA } from '@/services/chatbot';
+import { message } from 'antd';
 // import { connect } from 'dva';
 
 export default {
@@ -7,12 +8,14 @@ export default {
     data: [],
   },
   effects: {
-    *recentlyAIML(obj, { call, put }) {
-      const response = yield call(getRecentlyAIML, obj);
-      // console.log('in recently...', response);
+    *getQA({ TenChatbot, TenTopic}, { call, put }) {
+      const response = yield call(getQA, { TenChatbot, TenTopic});
+      console.log('in recently...', response);
+      if (!response || !response.status) message.error('Lấy thông tin câu hỏi - câu trả lời lỗi');
+      // console.log(response);
       yield put({
         type: 'saveRecentlyAIML',
-        payload: response,
+        payload: response.data,
       });
     },
   },
@@ -22,17 +25,6 @@ export default {
         ...state,
         data: action.payload,
       };
-    },
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen(({ pathname }) => {
-        if (pathname === '/inputQA') {
-          dispatch({
-            type: 'recentlyAIML',
-          });
-        }
-      });
     },
   },
 };

@@ -1,4 +1,4 @@
-import { getChatbots, getTopics, addTopic, addChatbot } from '@/services/chatbot';
+import { getChatbots, getTopics, addTopic, addChatbot, pushData } from '@/services/chatbot';
 // import { connect } from 'dva';
 import { message } from 'antd';
 import avatar from '@/assets/bot.png';
@@ -16,6 +16,19 @@ export default {
     topic: '',
   },
   effects: {
+    *pushData({ TenChatbot, TenTopic, CauHoiDayDu, CauHoiAIML, CauTraLoi }, { call, put }) {
+      const response = yield call(pushData, {
+        TenChatbot,
+        TenTopic,
+        CauHoiDayDu,
+        CauHoiAIML,
+        CauTraLoi,
+      });
+      if (!response || !response.status) 
+        message.error('Lưu không thành công, hãy thử lại sau');
+      else 
+        message.success('Lưu thành công!');
+    },
     *addChatbot({ TenChatbot, LinhVuc, GhiChu }, { call, put }) {
       const response = yield call(addChatbot, { TenChatbot, LinhVuc, GhiChu });
       if (!response || !response.status) message.error('Thêm chatbot bị lỗi');
@@ -23,7 +36,7 @@ export default {
     },
     *fetchChatbots(obj, { call, put }) {
       const response = yield call(getChatbots, {});
-      console.log('in effect...', response);
+      // console.log('in effect...', response);
       if (!response || !response.status) message.error('Lấy thông tin chatbot bị lỗi');
       else {
         yield put({
@@ -38,7 +51,7 @@ export default {
           description: `${chatbot.GhiChu}`,
           fields: chatbot.LinhVuc.reduce((a, b) => `${a},${b}`),
         }));
-        console.log(newListChatbot);
+        // console.log(newListChatbot);
         yield put({
           type: 'list/queryList',
           payload: newListChatbot,

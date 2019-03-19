@@ -17,6 +17,10 @@ const EditableTable = React.lazy(() => import('./Table/Table'));
   loadingChatbots: loading.effects['chatbots/fetchChatbots'],
 }))
 class CustomQuestion extends React.Component {
+  state = {
+    // save Question / AIML
+    qaLists: [],
+  }
   handleChange = value => {
     // console.log(`selected ${value}`);
     const { dispatch } = this.props;
@@ -37,11 +41,46 @@ class CustomQuestion extends React.Component {
   };
 
   handleChangeTopic = value => {
-    this.props.dispatch({
+    const { dispatch, chatbots } = this.props;
+    dispatch({
       type: 'chatbots/saveTopic',
       payload: value,
     });
+    dispatch({
+      type: 'recentlyAIML/getQA',
+      TenChatbot: chatbots.chatbot,
+      TenTopic: value,
+    });
   };
+
+  handleSaveQA = value => {
+    this.setState({qaLists : value});
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { form, chatbots, dispatch } = this.props;
+    const { chatbot, topic } = chatbots;
+    const { qaLists } = this.state;
+    form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values, chatbot, topic, this.state.qaLists);
+        dispatch({
+          type: 'chatbots/pushData',
+          TenChatbot : chatbot, 
+          TenTopic: topic, 
+          CauHoiDayDu: qaLists.map(val => val.textQuestion), 
+          CauHoiAIML: qaLists.map(val => val.textAIML), 
+          CauTraLoi: values.answer,
+        });
+        dispatch({
+          type: 'recentlyAIML/getQA',
+          TenChatbot: chatbots.chatbot,
+          TenTopic: topic,
+        });
+      }
+    });
+  }
 
   render() {
     const formItemLayout = {
@@ -57,8 +96,9 @@ class CustomQuestion extends React.Component {
 
     const { chatbots, loading, loadingChatbots, loadingTopics } = this.props;
     const { getFieldDecorator } = this.props.form;
-    console.log(chatbots, loading);
+    // console.log(chatbots, loading);
     const { chatbot, topic } = chatbots;
+    const disabledButton = chatbot == '' || topic == '';
     // console.log(chatbot, chatbots);
     // console.log(chatbots);
     // console.log(chatbot, topic);
@@ -76,7 +116,7 @@ class CustomQuestion extends React.Component {
       >
         <div className={styles.normal}>
           <Timeline>
-            <Form {...formItemLayout}>
+            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
               <Timeline.Item color="red">
                 <Card
                   size="small"
@@ -147,7 +187,7 @@ class CustomQuestion extends React.Component {
                   title={<div className={styles.timelineTitle}>Câu hỏi</div>}
                 >
                   <Suspense fallback={<PageLoading />}>
-                    <EditableTable />
+                    <EditableTable onSaveQA={this.handleSaveQA}/>
                   </Suspense>
                 </Card>
               </Timeline.Item>
@@ -189,7 +229,7 @@ class CustomQuestion extends React.Component {
                   title={<div className={styles.timelineTitle}>Hoàn thành</div>}
                 >
                   <div className={styles.flexbox}>
-                    <Button type="primary" shape="round" icon="save" size={'large'}>
+                    <Button disabled={disabledButton} htmlType="submit" type="primary" shape="round" icon="save" size={'large'}>
                       Lưu
                     </Button>
                   </div>

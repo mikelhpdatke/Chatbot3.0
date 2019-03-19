@@ -8,11 +8,11 @@ const { Text } = Typography;
 const columns = [
   {
     title: 'Pattern',
-    dataIndex: 'aiml_question',
+    dataIndex: 'aiml',
   },
   {
     title: 'Template',
-    dataIndex: 'aiml_answer',
+    dataIndex: 'answer',
   },
 ];
 
@@ -28,11 +28,20 @@ class RecentlyAIMLTable extends React.Component {
   render() {
     const { recentlyAIML } = this.props;
     // console.log(recentlyAIML);
-    let { data } = recentlyAIML;
-    data = data.map(({ id_topics_q_a: key, ...rest }) => ({ key, ...rest }));
+    const { data } = recentlyAIML;
+    // newData for table
+    // data recieve: 
+        // CauHoiAIML: ["^ xin ^ chao ^"]
+        // CauHoiDayDu: ["xin chao"]
+        // CauTraLoi: "hi ban"
+        // NguoiTao: "admin"
+    const newData = [];
+    data.map( val => {
+      val.CauHoiAIML.map(aiml => newData.push({ aiml, answer: val.CauTraLoi}));
+    })
     return (
       // <div className={styles.root}>
-      <Table bordered columns={columns} dataSource={data} onChange={this.onChange} />
+      <Table bordered columns={columns} dataSource={newData} onChange={this.onChange} />
       // </div>
     );
   }
