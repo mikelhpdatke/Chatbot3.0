@@ -2,6 +2,8 @@
 // import request from '@/utils/request';
 import { post, PostAppJson } from '@/utils/httpRequest';
 import { ipServer } from '@/utils/utils';
+// import { async } from 'q';
+// import { func } from 'prop-types';
 
 export async function getChatbots(params) {
   // return request('http://34.73.92.252:3000/chatbots/getfullinfo', {
@@ -13,6 +15,11 @@ export async function getChatbots(params) {
 
 export async function getTopics(params) {
   return PostAppJson(`${ipServer}/api/chatbot/topic/list`, params);
+}
+
+export async function addTopic(params) {
+  return PostAppJson(`${ipServer}/api/chatbot/topic/list`, params);
+
 }
 
 export async function getRecentlyAIML(params) {

@@ -96,14 +96,14 @@ class EditableTable extends React.Component {
                       </a>
                     )}
                   </EditableContext.Consumer>
-                  <Popconfirm
+                  {/* <Popconfirm
                     title="Bạn muốn huỷ thay đổi?"
                     cancelText="Không"
                     okText="Huỷ"
                     onConfirm={() => this.cancel(record.key)}
                   >
                     <a>Huỷ</a>
-                  </Popconfirm>
+                  </Popconfirm> */}
                 </span>
               ) : (
                 <a onClick={() => this.edit(record.key)}>Sửa</a>
