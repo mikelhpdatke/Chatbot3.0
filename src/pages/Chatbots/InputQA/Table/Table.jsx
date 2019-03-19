@@ -1,6 +1,8 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import { Table, Input, Button, Popconfirm, Form, Icon } from 'antd';
+import { Table, Input, Button, Popconfirm, Form, Icon, AutoComplete } from 'antd';
+import { connect } from 'dva';
+import _ from 'lodash';
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -27,20 +29,34 @@ class EditableCell extends React.Component {
     });
   };
 
-  save = () => {
+  save = (e) => {
+    // console.log(e.target)
     const { record, handleSave } = this.props;
     this.form.validateFields((error, values) => {
       // if (error) {
       //   return;
       // }
       // this.toggleEdit();
-      handleSave({ ...record, ...values });
+      // console.log(values, record);
+      let data2Dispatch;
+      if (e.target.id === 'textQuestion'){
+        // console.log(record);
+        data2Dispatch = {
+          type: 'AIMLTable/text2Pattern',
+          key: record.key,
+          question: values.textQuestion,
+        }
+        // console.log(values.textQuestion,'thisss');
+      }
+      handleSave({ ...record, ...values }, data2Dispatch);
     });
   };
 
   render() {
     const { editing } = this.state;
-    const { editable, dataIndex, title, record, index, handleSave, ...restProps } = this.props;
+    const { editable, dataIndex, title, record, index, 
+      handleSave, hint, ...restProps } = this.props;
+    // console.log(hint, '///', record, title, dataIndex);
     return (
       <td ref={node => (this.cell = node)} {...restProps}>
         {editable ? (
@@ -58,16 +74,17 @@ class EditableCell extends React.Component {
                     ],
                     initialValue: record[dataIndex],
                   })(
-                    <Input
-                      ref={node => (this.input = node)}
-                      onPressEnter={this.save}
-                      onBlur={this.save}
-                      // onPointerOut={() => {
-                      //   console.log('on poiter out');
-                      //   this.save()
-                      // }
-                      // }
-                    />
+                    <AutoComplete
+                      dataSource={( dataIndex !== 'textQuestion' && hint) ? 
+                        [hint.get(record.key)] : []}
+                    >
+                      <Input
+                        id={dataIndex}
+                        ref={node => (this.input = node)}
+                        onPressEnter={this.save}
+                        onBlur={this.save}
+                      />
+                    </AutoComplete>
                   )}
                 </FormItem>
               );
@@ -81,6 +98,10 @@ class EditableCell extends React.Component {
   }
 }
 
+@connect(({AIMLTable, loading}) => ({
+  AIMLTable,
+  loading: loading.models.AIMLTable,
+}))
 class EditableTable extends React.Component {
   constructor(props) {
     super(props);
@@ -135,7 +156,10 @@ class EditableTable extends React.Component {
     });
   };
 
-  handleSave = row => {
+  handleSave = (row, data2Dispatch) => {
+    if (data2Dispatch){
+      this.props.dispatch(data2Dispatch);
+    }
     const newData = [...this.state.dataSource];
     const index = newData.findIndex(item => row.key === item.key);
     const item = newData[index];
@@ -150,6 +174,8 @@ class EditableTable extends React.Component {
 
   render() {
     const { dataSource } = this.state;
+    const { dispatch, AIMLTable } = this.props;
+    // console.log(AIMLTable);
     const components = {
       body: {
         row: EditableFormRow,
@@ -167,6 +193,7 @@ class EditableTable extends React.Component {
           editable: col.editable,
           dataIndex: col.dataIndex,
           title: col.title,
+          hint: AIMLTable.hint,
           handleSave: this.handleSave,
         }),
       };

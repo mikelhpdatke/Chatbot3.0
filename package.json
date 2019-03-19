@@ -41,6 +41,7 @@
     "enquire-js": "^0.2.1",
     "express": "^4.16.4",
     "hash.js": "^1.1.7",
+    "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.11",
     "lodash-decorators": "^6.0.1",
     "memoize-one": "^5.0.0",
