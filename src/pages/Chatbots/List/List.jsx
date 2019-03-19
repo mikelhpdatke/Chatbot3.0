@@ -32,6 +32,7 @@ class CardList extends PureComponent {
       loading,
       drawerList,
     } = this.props;
+    console.log('???', list);
     // console.log(drawerList, '??');
     return (
       <React.Fragment>

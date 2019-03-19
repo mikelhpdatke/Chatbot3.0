@@ -13,6 +13,10 @@ export async function getTopics(params) {
   return PostAppJson(`${ipServer}/api/chatbot/topic/list`, params);
 }
 
+export async function addChatbot(params) {
+  return PostAppJson(`${ipServer}/api/chatbot/create`, params);
+}
+
 export async function addTopic(params) {
   return PostAppJson(`${ipServer}/api/chatbot/add_chatbot_topic`, params);
 }

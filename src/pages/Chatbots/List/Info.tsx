@@ -17,12 +17,22 @@ class Info extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log('???');
-    this.props.form.validateFieldsAndScroll((err, values) => {
+    // console.log('???');
+    const { form, dispatch, increaseCurrent } = this.props;
+    form.validateFieldsAndScroll((err, values) => {
       console.log(err, values);
       if (!err) {
-        console.log('Received values of form: ', values);
-        this.props.increaseCurrent();
+        // console.log('Received values of form: ', values);
+        increaseCurrent();
+        dispatch({
+          type: 'chatbots/addChatbot',
+          TenChatbot: values.chatbotName,
+          LinhVuc: values.fields,
+          GhiChu: values.note,
+        });
+        dispatch({
+          type: 'chatbots/fetchChatbots',
+        });
         // router.push('/create/defaultQuestion');
       }
     });
@@ -32,7 +42,6 @@ class Info extends React.Component {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
-
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -104,16 +113,16 @@ class Info extends React.Component {
           <Row>
             <Col span={4} offset={20}>
               <Form.Item {...tailFormItemLayout}>
-              <Button
-              type="primary"
-              size="large"
-              htmlType="submit"
-              // onClick={}
-              className={styles.nextButton}
-            >
-              Tiếp tục
-              <Icon type="right" />
-            </Button>
+                <Button
+                  type="primary"
+                  size="large"
+                  htmlType="submit"
+                  // onClick={}
+                  className={styles.nextButton}
+                >
+                  Tiếp tục
+                  <Icon type="right" />
+                </Button>
               </Form.Item>
             </Col>
           </Row>
