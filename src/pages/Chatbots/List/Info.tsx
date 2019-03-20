@@ -8,6 +8,7 @@ import { connect } from 'dva';
 @connect(({ user, loading }) => ({
   currentUser: user.currentUser,
   currentUserLoading: loading.effects['user/fetchCurrent'],
+  nextButtonLoading: loading.effects['chatbots/addChatbot'],
 }))
 class Info extends React.Component {
   state = {
@@ -23,13 +24,13 @@ class Info extends React.Component {
       console.log(err, values);
       if (!err) {
         // console.log('Received values of form: ', values);
-        increaseCurrent();
         dispatch({
           type: 'chatbots/addChatbot',
           TenChatbot: values.chatbotName,
           LinhVuc: values.fields,
           GhiChu: values.note,
         });
+        // increaseCurrent();
         dispatch({
           type: 'chatbots/fetchChatbots',
         });
@@ -46,7 +47,7 @@ class Info extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
-    const { currentUser, currentUserLoading } = this.props;
+    const { currentUser, currentUserLoading, nextButtonLoading } = this.props;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -119,6 +120,7 @@ class Info extends React.Component {
                   htmlType="submit"
                   // onClick={}
                   className={styles.nextButton}
+                  disabled={nextButtonLoading}
                 >
                   Tiếp tục
                   <Icon type="right" />

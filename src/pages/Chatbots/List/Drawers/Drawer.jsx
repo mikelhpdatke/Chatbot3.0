@@ -16,24 +16,28 @@ const Info = React.lazy(() => import('../Info'));
 
 // const AutoCompleteOption = AutoComplete.Option;
 
-@connect(({ drawerList }) => ({
+@connect(({ drawerList, loading }) => ({
   drawerList,
 }))
 class DrawerComponent extends React.Component {
-  state = {
-    current: 0,
-  };
-
   increase = () => {
-    // console.log('inc??');
-    this.setState(state => ({ current: state.current + 1 }));
-  };
+    this.props.dispatch({
+      type: 'drawerList/increaseCurrent',
+    })
+  }
+
+  reset = () => {
+    this.props.dispatch({
+      type: 'drawerList/resetCurrent',
+    })
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { current } = this.state;
-    const { drawerList } = this.props;
-
+    // const { current } = this.state;
+    const { drawerList, dispatch } = this.props;
+    const { current } = drawerList;
+    // console.log(current,'??');
     const steps = [
       {
         title: 'Nhập thông tin cơ bản',
@@ -71,7 +75,7 @@ class DrawerComponent extends React.Component {
         title="Tạo Chatbot mới"
         width={drawerWidth}
         onClose={() => {
-          this.setState({ current: 0 });
+          this.reset();
           this.props.dispatch({ type: 'drawerList/handle', payload: false });
         }}
         visible={drawerList.open}
@@ -108,7 +112,7 @@ class DrawerComponent extends React.Component {
               className={styles.nextButton}
               onClick={() => {
                 message.success('Thêm chatbot thành công vào danh sách chatbot');
-                this.setState({ current: 0 });
+                this.reset();
                 this.props.dispatch({
                   type: 'drawerList/handle',
                   payload: false,

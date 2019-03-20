@@ -32,7 +32,12 @@ export default {
     *addChatbot({ TenChatbot, LinhVuc, GhiChu }, { call, put }) {
       const response = yield call(addChatbot, { TenChatbot, LinhVuc, GhiChu });
       if (!response || !response.status) message.error('Thêm chatbot bị lỗi');
-      else message.success('Thêm chatbot thành công');
+      else {
+        message.success('Thêm chatbot thành công');
+        yield put({
+          type: 'drawerList/increaseCurrent',
+        })
+      }
     },
     *fetchChatbots(obj, { call, put }) {
       const response = yield call(getChatbots, {});

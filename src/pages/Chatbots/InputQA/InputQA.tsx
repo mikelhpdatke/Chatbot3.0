@@ -103,12 +103,19 @@ class CustomQuestion extends React.Component {
     // console.log(chatbots);
     // console.log(chatbot, topic);
     // console.log(chatbots.chatbots);
+    let alertMess = "Bạn có thể nhập nhiều câu hỏi và 1 câu trả lời";
+    let typeMess = "info",
+
+    if (chatbot !== '' && topic === '') {
+      alertMess = "Chatbot: " + chatbot + " chưa được tạo chủ đề, hãy tạo chủ đề cho chatbot ở Quản lý chatbot -> Danh sách chatbot -> Chỉnh sửa";
+      typeMess= "error";
+    }
     return (
       <PageHeaderWrapper
         title={
           <Alert
-            message="Bạn có thể nhập nhiều câu hỏi và 1 câu trả lời"
-            type="info"
+            message={alertMess}
+            type={typeMess}
             showIcon
             closable
           />
